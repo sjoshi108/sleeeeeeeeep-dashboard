@@ -5,7 +5,7 @@ import plotly.express as px
 
 st.title('Sleep streamlit Website')
 st.write('Analysis of sleep')
-df = pd.read_csv('/data/Sleep_health_and_lifestyle_dataset.csv')
+df = pd.read_csv('Sleep_health_and_lifestyle_dataset.csv')
 
 
 st.write('3D plot of 4 features')
