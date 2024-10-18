@@ -27,7 +27,7 @@ st.plotly_chart(fig2)
 fig4 = px.bar(df, x='Stress_Level', y='Quality_of_Sleep',
              title="Average Quality of Sleep by Stress Level",
              labels={'Stress_Level': 'Stress_Level', 'Quality_of_Sleep': 'Average Quality of Sleep'})
-fig4.show()
+st.plotly_chart(fig4)
 
 
 
