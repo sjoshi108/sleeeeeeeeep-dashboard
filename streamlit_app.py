@@ -122,10 +122,3 @@ st.title("Sleep Efficiency Comparison")
 
 # Display the heatmap
 st.plotly_chart(fig5)
-
-
-fig6 = px.bar(df, x='Occupation', y='Sleep_Duration', color='Sleep_Disorder', 
-              facet_col='Physical_Activity_Level', title="Sleep Duration across Occupations, Sleep Disorder, and Physical Activity",
-              labels={'Sleep_Duration': 'Sleep Duration', 'Occupation': 'Occupation', 'Physical_Activity_Level': 'Physical Activity'})
-
-st.plotly_chart(fig6)
