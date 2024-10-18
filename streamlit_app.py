@@ -30,12 +30,12 @@ st.plotly_chart(fig2)
 
 
 data = {
-    "Sleep_Duration": "7 hours 23 minutes",
-    "Awakenings": 136,
-    "Light_Sleep_Duration": "2 hours 43 minutes",
-    "Deep_Sleep_Duration": "4 hours 16 minutes",
-    "Rem_Sleep_Duration": "1 hour 39 minutes",
-    "Sleep_efficiency_hours": "6 hours 9 minutes"
+    "Sleep_Duration": [7.378676],
+    "Awakenings": [136],
+    "Light_Sleep_Duration": [2.716397],
+    "Deep_Sleep_Duration": [4.271765],
+    "Rem_Sleep_Duration": [1.658235],
+    "Sleep_efficiency_hours": [6.144044]
 }
 
 # Create DataFrame
@@ -44,12 +44,8 @@ df = pd.DataFrame(data)
 # Title of the app
 st.title("Sleep Study Overview")
 
-# Subtitle indicating alcohol and caffeine consumption
-st.subheader("Note: Alcohol and Caffeine Consumption was at 0")
-
 # Displaying key metrics using st.metric()
 st.metric(label="Average Sleep Duration", value=f"{df['Sleep_Duration'].mean():.2f} hours")
-st.metric(label="Average Awakenings", value=f"{df['Awakenings'].mean():.2f}")
 st.metric(label="Average Light Sleep Duration", value=f"{df['Light_Sleep_Duration'].mean():.2f} hours")
 st.metric(label="Average Deep Sleep Duration", value=f"{df['Deep_Sleep_Duration'].mean():.2f} hours")
 st.metric(label="Average REM Sleep Duration", value=f"{df['Rem_Sleep_Duration'].mean():.2f} hours")
