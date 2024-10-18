@@ -24,6 +24,12 @@ fig2 = px.box(df, x='Stress_Level', y='Sleep_Duration',
              labels={'Stress_Level': 'Stress_Level', 'Sleep_Duration': 'Sleep_Duration'})
 st.plotly_chart(fig2)
 
+fig4 = px.bar(df, x='Stress_Level', y='Quality_of_Sleep',
+             title="Average Quality of Sleep by Stress Level",
+             labels={'Stress_Level': 'Stress_Level', 'Quality_of_Sleep': 'Average Quality of Sleep'})
+fig4.show()
+
+
 
 
 data = {
@@ -59,19 +65,3 @@ st.metric(label="Average REM Sleep Duration", value=convert_hours_to_h_m(df['Rem
 st.metric(label="Average Sleep Efficiency Hours", value=convert_hours_to_h_m(df['Sleep_efficiency_hours'].mean()))
 
 
-st.title(' Investigate whether daily steps influence heart rate through an indirect effect on sleep quality, and examine whether this mediated relationship differs across BMI categories.')
-
-
-import plotly.graph_objects as go
-import numpy as np
-
-# Create a heatmap to see interaction between daily steps, sleep quality, and heart rate
-df['Average_Sleep_Quality'] = df.groupby('BMI_Category')['Quality_of_Sleep'].transform('mean')
-
-# Creating a 2D heatmap of daily steps, heart rate, and sleep quality
-fig3 = px.density_heatmap(df, x='Daily_Steps', y='Heart_Rate', z='Quality_of_Sleep',
-                          facet_col='BMI_Category', color_continuous_scale='Viridis',
-                          title="Relationship between Daily Steps, Heart Rate, and Sleep Quality across BMI Categories",
-                          labels={'Daily_Steps': 'Daily Steps', 'Heart_Rate': 'Heart Rate', 'Quality_of_Sleep': 'Sleep Quality'})
-
-fig3.show()
