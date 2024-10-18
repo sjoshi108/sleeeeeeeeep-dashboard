@@ -26,35 +26,6 @@ st.plotly_chart(fig2)
 
 
 
-
-
-
-data = {
-    "Sleep_Duration": [7.378676],
-    "Awakenings": [136],
-    "Light_Sleep_Duration": [2.716397],
-    "Deep_Sleep_Duration": [4.271765],
-    "Rem_Sleep_Duration": [1.658235],
-    "Sleep_efficiency_hours": [6.144044]
-}
-
-# Create DataFrame
-df = pd.DataFrame(data)
-
-# Title of the app
-st.title("Sleep Study Overview")
-
-# Displaying key metrics using st.metric()
-st.metric(label="Average Sleep Duration", value=f"{df['Sleep_Duration'].mean():.2f} hours")
-st.metric(label="Average Light Sleep Duration", value=f"{df['Light_Sleep_Duration'].mean():.2f} hours")
-st.metric(label="Average Deep Sleep Duration", value=f"{df['Deep_Sleep_Duration'].mean():.2f} hours")
-st.metric(label="Average REM Sleep Duration", value=f"{df['Rem_Sleep_Duration'].mean():.2f} hours")
-st.metric(label="Average Sleep Efficiency Hours", value=f"{df['Sleep_efficiency_hours'].mean():.2f} hours")
-
-
-
-
-
 data = {
     "Sleep_Duration": [7.378676],  # Sleep duration in hours
     "Awakenings": [136],
@@ -86,3 +57,21 @@ st.metric(label="Average Light Sleep Duration", value=convert_hours_to_h_m(df['L
 st.metric(label="Average Deep Sleep Duration", value=convert_hours_to_h_m(df['Deep_Sleep_Duration'].mean()))
 st.metric(label="Average REM Sleep Duration", value=convert_hours_to_h_m(df['Rem_Sleep_Duration'].mean()))
 st.metric(label="Average Sleep Efficiency Hours", value=convert_hours_to_h_m(df['Sleep_efficiency_hours'].mean()))
+
+
+st.title(' Investigate whether daily steps influence heart rate through an indirect effect on sleep quality, and examine whether this mediated relationship differs across BMI categories.')
+
+
+import plotly.graph_objects as go
+import numpy as np
+
+# Create a heatmap to see interaction between daily steps, sleep quality, and heart rate
+df['Average_Sleep_Quality'] = df.groupby('BMI_Category')['Quality_of_Sleep'].transform('mean')
+
+# Creating a 2D heatmap of daily steps, heart rate, and sleep quality
+fig3 = px.density_heatmap(df, x='Daily_Steps', y='Heart_Rate', z='Quality_of_Sleep',
+                          facet_col='BMI_Category', color_continuous_scale='Viridis',
+                          title="Relationship between Daily Steps, Heart Rate, and Sleep Quality across BMI Categories",
+                          labels={'Daily_Steps': 'Daily Steps', 'Heart_Rate': 'Heart Rate', 'Quality_of_Sleep': 'Sleep Quality'})
+
+fig3.show()
