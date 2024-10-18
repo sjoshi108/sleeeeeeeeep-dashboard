@@ -122,3 +122,14 @@ st.title("Sleep Efficiency Comparison")
 
 # Display the heatmap
 st.plotly_chart(fig5)
+
+
+
+
+
+
+fig7 = px.scatter(df, x='Stress_Level', y='Sleep_Duration',
+                 title="Stress_Level vs Sleep_Duration",
+                 labels={'Stress_Level': 'Stress_Level', 'Sleep_Duration': 'Sleep_Duration'},
+                 trendline="ols")
+st.plotly_chart(fig7)
