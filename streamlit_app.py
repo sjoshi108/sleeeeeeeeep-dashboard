@@ -23,3 +23,27 @@ fig2 = px.box(df, x='Stress_Level', y='Sleep_Duration',
              title="Box Plot: Stress Level vs Sleep Duration",
              labels={'Stress_Level': 'Stress_Level', 'Sleep_Duration': 'Sleep_Duration'})
 st.plotly_chart(fig2)
+
+
+
+
+data = {
+    "Sleep_Duration": [7.465708],
+    "Light_Sleep_Duration": [3.367367],
+    "Deep_Sleep_Duration": [3.950111],
+    "Rem_Sleep_Duration": [1.717633],
+    "Sleep_efficiency_hours": [5.886604]
+}
+
+# Create DataFrame
+df2 = pd.DataFrame(data)
+
+# Title of the app
+st.title("Sleep Study Overview")
+
+# Displaying key metrics using st.metric()
+st.metric(label="Average Sleep Duration", value=f"{df2['Sleep_Duration'].mean():.2f} hours")
+st.metric(label="Average Light Sleep Duration", value=f"{df2['Light_Sleep_Duration'].mean():.2f} hours")
+st.metric(label="Average Deep Sleep Duration", value=f"{df2['Deep_Sleep_Duration'].mean():.2f} hours")
+st.metric(label="Average REM Sleep Duration", value=f"{df2['Rem_Sleep_Duration'].mean():.2f} hours")
+st.metric(label="Average Sleep Efficiency Hours", value=f"{df2['Sleep_efficiency_hours'].mean():.2f} hours")
