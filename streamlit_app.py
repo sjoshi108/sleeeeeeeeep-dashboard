@@ -50,3 +50,39 @@ st.metric(label="Average Light Sleep Duration", value=f"{df['Light_Sleep_Duratio
 st.metric(label="Average Deep Sleep Duration", value=f"{df['Deep_Sleep_Duration'].mean():.2f} hours")
 st.metric(label="Average REM Sleep Duration", value=f"{df['Rem_Sleep_Duration'].mean():.2f} hours")
 st.metric(label="Average Sleep Efficiency Hours", value=f"{df['Sleep_efficiency_hours'].mean():.2f} hours")
+
+
+
+
+
+data = {
+    "Sleep_Duration": [7.378676],  # Sleep duration in hours
+    "Awakenings": [136],
+    "Light_Sleep_Duration": [2.716397],  # Light sleep duration in hours
+    "Deep_Sleep_Duration": [4.271765],  # Deep sleep duration in hours
+    "Rem_Sleep_Duration": [1.658235],  # REM sleep duration in hours
+    "Sleep_efficiency_hours": [6.144044]  # Sleep efficiency in hours
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Title of the app
+st.title("Sleep Study Overview")
+
+# Subtitle indicating alcohol and caffeine consumption
+st.subheader("Note: Alcohol and Caffeine Consumption was at 0")
+
+# Function to convert hours to hours and minutes
+def convert_hours_to_h_m(hours):
+    h = int(hours)
+    m = int((hours - h) * 60)
+    return f"{h} hours {m} minutes"
+
+# Displaying key metrics using st.metric()
+st.metric(label="Average Sleep Duration", value=convert_hours_to_h_m(df['Sleep_Duration'].mean()))
+st.metric(label="Average Awakenings", value=f"{df['Awakenings'].mean():.2f}")
+st.metric(label="Average Light Sleep Duration", value=convert_hours_to_h_m(df['Light_Sleep_Duration'].mean()))
+st.metric(label="Average Deep Sleep Duration", value=convert_hours_to_h_m(df['Deep_Sleep_Duration'].mean()))
+st.metric(label="Average REM Sleep Duration", value=convert_hours_to_h_m(df['Rem_Sleep_Duration'].mean()))
+st.metric(label="Average Sleep Efficiency Hours", value=convert_hours_to_h_m(df['Sleep_efficiency_hours'].mean()))
