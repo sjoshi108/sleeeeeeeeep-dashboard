@@ -97,7 +97,6 @@ st.subheader("Note: These values represent the average consumption levels in the
 
 
 
-# Sample data
 data = {
     "Condition": ["Zero Alcohol & Caffeine", "Average Alcohol & Caffeine"],
     "Average Sleep Efficiency": [6.14, 5.89]
@@ -107,10 +106,14 @@ data = {
 df5 = pd.DataFrame(data)
 
 # Create heatmap using Plotly
+# Create a pivot table for the heatmap
+heatmap_data = df5.set_index("Condition").T  # Transpose for correct heatmap format
+
+# Create heatmap using Plotly
 fig5 = px.imshow(
-    df5.pivot("Condition", "Average Sleep Efficiency", "Average Sleep Efficiency"),
+    heatmap_data,
     color_continuous_scale="Viridis",
-    labels=dict(x="Average Sleep Efficiency (hours)", y="Condition"),
+    labels=dict(x="Condition", y="Average Sleep Efficiency (hours)"),
     title="Average Sleep Efficiency Comparison",
 )
 
@@ -119,9 +122,3 @@ st.title("Sleep Efficiency Comparison")
 
 # Display the heatmap
 st.plotly_chart(fig5)
-
-# Key for sleep efficiency definition
-st.markdown("""
-### Key:
-- **Sleep Efficiency:** A measure of the proportion of time in bed spent asleep.
-""")
