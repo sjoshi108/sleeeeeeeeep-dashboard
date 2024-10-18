@@ -16,3 +16,9 @@ fig1 = px.scatter_3d(df, x='Physical_Activity_Level', y='Stress_Level', z='Sleep
                              'Sleep_Duration': 'Sleep Duration', 'Age': 'Age'})
 
 st.plotly_chart(fig1)
+
+st.write('3D plot of 2 features')
+fig2 = px.box(df, x='Stress_Level', y='Sleep_Duration',
+             title="Box Plot: Stress Level vs Sleep Duration",
+             labels={'Stress_Level': 'Stress_Level', 'Sleep_Duration': 'Sleep_Duration'})
+st.plotly_chart(fig2)
