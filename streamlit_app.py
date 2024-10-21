@@ -125,7 +125,7 @@ def page_two():
 import ipywidgets as widgets
 from IPython.display import display
 
-df = pd.read_csv("/content/sleep_data_final.csv")  # Replace with your CSV file path
+df = pd.read_csv("sleep_data_final.csv")  # Replace with your CSV file path
 
 # Dropdown for Age Group
 age_options = ["All", "Teenagers", "20s", "30s", "40s", "50s", "60s"]
