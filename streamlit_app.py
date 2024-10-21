@@ -168,4 +168,22 @@ def page_four():
                 such as rail workers, demonstrated correlations between job security, work surges, and stress. 
                 These insights highlight the multifaceted nature of sleep health.''')
 
+# Main App Structure
+def main():
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Go to", ["Introduction", "Caffeine and Alcohol vs Sleep", "Activity and Stress vs Sleep", "Job Factors vs Sleep", "Conclusion"])
+    
+    if page == "Introduction":
+        introduction_page()
+    elif page == "Caffeine and Alcohol vs Sleep":
+        page_one()
+    elif page == "Activity and Stress vs Sleep":
+        page_two()
+    elif page == "Job Factors vs Sleep":
+        page_three()
+    elif page == "Conclusion":
+        page_four()
+
+if __name__ == "__main__":
+    main()
 
