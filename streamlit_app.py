@@ -343,13 +343,13 @@ st.subheader("Note: Gender counts are based on participant responses.")
 
 
 # Sample data
-data3 = {
+data13 = {
     "Condition": ["Zero Alcohol & Caffeine", "Average Alcohol & Caffeine"],
     "Average Sleep Efficiency": [6.14, 5.89]
 }
 
 # Create a DataFrame
-df8 = pd.DataFrame(data3)
+df8 = pd.DataFrame(data13)
 
 # Create heatmap using Plotly
 # Create a pivot table for the heatmap
