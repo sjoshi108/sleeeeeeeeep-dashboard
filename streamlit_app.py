@@ -137,7 +137,7 @@ import ipywidgets as widgets
 from IPython.display import display
 import streamlit as st
 
-df = pd.read_csv("/content/sleep_data_final.csv")  # Replace with the csv file i sent through slack please
+df = pd.read_csv("sleep_data_final.csv")  # Replace with the csv file i sent through slack please
 
 # ---- Create Widgets for Filters ----
 
