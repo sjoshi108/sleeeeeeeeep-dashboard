@@ -117,7 +117,134 @@ def page_two():
     plt.figure(figsize=(10,6))
     sns.heatmap(df[['Physical_Activity_Level', 'Stress_Level', 'Quality_of_Sleep']].corr(), annot=True, cmap='coolwarm')
     st.pyplot(plt)
+#################################################################################
 
+
+
+
+import ipywidgets as widgets
+from IPython.display import display
+
+df = pd.read_csv("/content/sleep_data_final.csv")  # Replace with your CSV file path
+
+# Dropdown for Age Group
+age_options = ["All", "Teenagers", "20s", "30s", "40s", "50s", "60s"]
+age_dropdown = widgets.Dropdown(
+    options=age_options,
+    description='Age Group:',
+    value='All'
+)
+
+# Dropdown for Gender
+gender_options = ["All", "Male", "Female", "Other"]
+gender_dropdown = widgets.Dropdown(
+    options=gender_options,
+    description='Gender:',
+    value='All'
+)
+
+# Sliders for Alcohol Consumption
+alcohol_slider = widgets.IntRangeSlider(
+    value=[0, 5],
+    min=0,
+    max=int(df['Alcohol_consumption'].max()),
+    step=1,
+    description='Alcohol Consumption:',
+    continuous_update=False
+)
+
+# Sliders for Caffeine Consumption
+caffeine_slider = widgets.IntRangeSlider(
+    value=[0, 5],
+    min=0,
+    max=int(df['Caffeine_consumption'].max()),
+    step=1,
+    description='Caffeine Consumption:',
+    continuous_update=False
+)
+
+display(age_dropdown, gender_dropdown, alcohol_slider, caffeine_slider)
+
+# ---- Function to Filter Data and Plot ----
+def update_metrics(age_group, gender, alcohol_range, caffeine_range):
+    # Define the age group ranges
+    age_ranges = {
+        "Teenagers": (9, 19),
+        "20s": (20, 29),
+        "30s": (30, 39),
+        "40s": (40, 49),
+        "50s": (50, 59),
+        "60s": (60, 69)
+    }
+
+    # Copy original DataFrame to avoid modifying it directly
+    filtered_df = df.copy()
+
+    # Apply Age Filter
+    if age_group != "All":
+        age_min, age_max = age_ranges[age_group]
+        filtered_df = filtered_df[(filtered_df["Age"] >= age_min) & (filtered_df["Age"] <= age_max)]
+
+    # Apply Gender Filter
+    if gender != "All":
+        filtered_df = filtered_df[filtered_df["Gender"] == gender]
+
+    # Apply Alcohol Consumption Filter
+    filtered_df = filtered_df[(filtered_df["Alcohol_consumption"] >= alcohol_range[0]) &
+                              (filtered_df["Alcohol_consumption"] <= alcohol_range[1])]
+
+    # Apply Caffeine Consumption Filter
+    filtered_df = filtered_df[(filtered_df["Caffeine_consumption"] >= caffeine_range[0]) &
+                              (filtered_df["Caffeine_consumption"] <= caffeine_range[1])]
+
+    # Display Filtered Data
+    print(f"Filtered Data: {len(filtered_df)} Participants")
+    display(filtered_df)
+
+    # Add Plots Based on Filtered Data
+    print("Sleep Metrics by Filters")
+
+    # 1. Bar Plot for Sleep Duration
+    fig_duration = px.bar(filtered_df, x="Age", y="Sleep_Duration", color="Gender",
+                          title="Sleep Duration by Age & Gender")
+    fig_duration.show()
+
+    # 2. Bar Plot for Sleep Efficiency
+    fig_efficiency = px.bar(filtered_df, x="Age", y="Sleep_efficiency", color="Gender",
+                             title="Sleep Efficiency by Age & Gender")
+    fig_efficiency.show()
+
+    # 3. Bar Plot for Awakenings
+    fig_awakenings = px.bar(filtered_df, x="Age", y="Awakenings", color="Gender",
+                             title="Awakenings by Age & Gender")
+    fig_awakenings.show()
+
+    # 4. Bar Plot for Light Sleep
+    fig_light_sleep = px.bar(filtered_df, x="Age", y="Light_Sleep_Duration", color="Gender",
+                              title="Light Sleep by Age & Gender")
+    fig_light_sleep.show()
+
+    # 5. Bar Plot for Deep Sleep
+    fig_deep_sleep = px.bar(filtered_df, x="Age", y="Deep_Sleep_Duration", color="Gender",
+                             title="Deep Sleep by Age & Gender")
+    fig_deep_sleep.show()
+
+    # 6. Bar Plot for REM Sleep
+    fig_rem_sleep = px.bar(filtered_df, x="Age", y="Rem_Sleep_Duration", color="Gender",
+                            title="REM Sleep by Age & Gender")
+    fig_rem_sleep.show()
+
+# ---- Observe Widget Changes ----
+widgets.interactive(update_metrics,
+                    age_group=age_dropdown,
+                    gender=gender_dropdown,
+                    alcohol_range=alcohol_slider,
+                    caffeine_range=caffeine_slider)
+
+
+
+
+################################################################################
 # Hypothesis 3: Job-related Factors impact on Sleep and Stress (Rail Workers)
 def page_three():
     st.title('Hypothesis 3: Job-Related Factors vs Sleep and Stress (Rail Workers)')
