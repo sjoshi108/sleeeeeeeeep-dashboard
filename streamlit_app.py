@@ -349,14 +349,14 @@ data13 = {
 }
 
 # Create a DataFrame
-df8 = pd.DataFrame(data13)
+df18 = pd.DataFrame(data13)
 
 # Create heatmap using Plotly
 # Create a pivot table for the heatmap
-heatmap_data = df8.set_index("Condition").T  # Transpose for correct heatmap format
+heatmap_data = df18.set_index("Condition").T  # Transpose for correct heatmap format
 
 # Create heatmap using Plotly
-fig8 = px.imshow(
+fig18 = px.imshow(
     heatmap_data,
     color_continuous_scale="Viridis",
     labels=dict(x="Condition", y="Average Sleep Efficiency (hours)"),
@@ -367,7 +367,7 @@ fig8 = px.imshow(
 st.title("Sleep Efficiency Comparison")
 
 # Display the heatmap
-st.plotly_chart(fig8)
+st.plotly_chart(fig18)
 
 # Key for sleep efficiency definition
 st.markdown("""
