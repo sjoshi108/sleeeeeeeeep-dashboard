@@ -13,15 +13,7 @@ rail_workers_sleep_data = pd.read_csv('rail_workers_sleep_data.csv')
 # Set page configuration for wide view
 st.set_page_config(layout="wide", page_title="Sleep and Lifestyle Analysis", page_icon=":bar_chart:")
 
-# Set a background color for the app
-page_bg_color = '''
-<style>
-body {
-background-color: #e0f7fa;
-}
-</style>
-'''
-st.markdown(page_bg_color, unsafe_allow_html=True)
+
 
 # Function for displaying scorecards in a separate row
 def display_scorecards(df, scorecard_columns):
