@@ -2,7 +2,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objs as go
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -11,22 +10,24 @@ sleep_data_final = pd.read_csv('sleep_data_final.csv')
 sleep_health_and_lifestyle = pd.read_csv('Sleep_health_and_lifestyle_dataset.csv')
 rail_workers_sleep_data = pd.read_csv('rail_workers_sleep_data.csv')
 
-# Set a background image for the app from GitHub link
-page_bg_img = '''
+# Set page configuration for wide view
+st.set_page_config(layout="wide", page_title="Sleep and Lifestyle Analysis", page_icon=":bar_chart:")
+
+# Set a background color for the app
+page_bg_color = '''
 <style>
 body {
-background-image: url("https://papers.co/wallpaper/papers.co-sg96-blue-lonly-sleep-gradation-blur-35-3840x2160-4k-wallpaper.jpg");
-background-size: cover;
+background-color: #e0f7fa;
 }
 </style>
 '''
-st.markdown(page_bg_img, unsafe_allow_html=True)
+st.markdown(page_bg_color, unsafe_allow_html=True)
 
-# Function for displaying scorecards
+# Function for displaying scorecards in a separate row
 def display_scorecards(df, scorecard_columns):
-    col1, col2 = st.columns([2, 2])
+    col1, col2, col3 = st.columns(3)
     for i, col_name in enumerate(scorecard_columns):
-        with [col1, col2][i % 2]:
+        with [col1, col2, col3][i % 3]:
             st.metric(col_name, round(df[col_name].mean(), 2))
 
 # Introduction Page
@@ -37,7 +38,7 @@ def introduction_page():
                 showcasing complex visualizations to highlight correlations and patterns in the data. Additionally, key metrics are 
                 presented in scorecards to provide quick insights.''')
 
-# Hypothesis 1: Caffeine and Alcohol impact on Sleep Efficiency (with wider columns)
+# Hypothesis 1: Caffeine and Alcohol impact on Sleep Efficiency
 def page_one():
     st.title('Hypothesis 1: Caffeine and Alcohol Consumption vs Sleep Efficiency')
     
@@ -51,8 +52,8 @@ def page_one():
     st.write("### Key Metrics")
     display_scorecards(df, ['Caffeine_consumption', 'Alcohol_consumption', 'Sleep_efficiency'])
 
-    # Arrange visualizations in wider columns
-    col1, col2 = st.columns([2, 2])
+    # Arrange visualizations in 3 wide columns
+    col1, col2, col3 = st.columns([2, 2, 2])
 
     # Pie chart
     with col1:
@@ -60,7 +61,7 @@ def page_one():
         fig1 = px.pie(df, names='Gender', title='Gender Distribution', color_discrete_sequence=px.colors.qualitative.Set3)
         st.plotly_chart(fig1)
 
-    # Scatter plot with 3D
+    # 3D Scatter plot
     with col2:
         st.write("### 3D Graph: Caffeine, Alcohol, and Sleep Efficiency")
         fig2 = px.scatter_3d(df, x='Caffeine_consumption', y='Alcohol_consumption', z='Sleep_efficiency', color='Gender',
@@ -68,10 +69,11 @@ def page_one():
         st.plotly_chart(fig2)
 
     # Scatter plot for correlation
-    st.write("### Sleep Efficiency vs Caffeine Consumption")
-    fig3 = px.scatter(df, x='Caffeine_consumption', y='Sleep_efficiency', color='Gender', trendline='ols',
-                      color_discrete_sequence=px.colors.qualitative.Pastel)
-    st.plotly_chart(fig3)
+    with col3:
+        st.write("### Sleep Efficiency vs Caffeine Consumption")
+        fig3 = px.scatter(df, x='Caffeine_consumption', y='Sleep_efficiency', color='Gender', trendline='ols',
+                          color_discrete_sequence=px.colors.qualitative.Pastel)
+        st.plotly_chart(fig3)
 
     # Heatmap at the bottom
     st.write("### Heatmap of Sleep Factors")
@@ -79,7 +81,7 @@ def page_one():
     sns.heatmap(df[['Caffeine_consumption', 'Alcohol_consumption', 'Sleep_efficiency']].corr(), annot=True, cmap='coolwarm')
     st.pyplot(plt)
 
-# Hypothesis 2: Physical Activity and Stress impact on Sleep Quality (with wider columns)
+# Hypothesis 2: Physical Activity and Stress impact on Sleep Quality
 def page_two():
     st.title('Hypothesis 2: Physical Activity and Stress Levels vs Sleep Quality')
     
@@ -93,8 +95,8 @@ def page_two():
     st.write("### Key Metrics")
     display_scorecards(df, ['Physical_Activity_Level', 'Stress_Level', 'Quality_of_Sleep'])
 
-    # Arrange visualizations in wider columns
-    col1, col2 = st.columns([2, 2])
+    # Arrange visualizations in 3 wide columns
+    col1, col2, col3 = st.columns([2, 2, 2])
 
     # Pie chart
     with col1:
@@ -110,10 +112,11 @@ def page_two():
         st.plotly_chart(fig2)
 
     # Scatter plot
-    st.write("### Stress Level vs Sleep Quality")
-    fig3 = px.scatter(df, x='Stress_Level', y='Quality_of_Sleep', color='Occupation', trendline='ols',
-                      color_discrete_sequence=px.colors.qualitative.Vivid)
-    st.plotly_chart(fig3)
+    with col3:
+        st.write("### Stress Level vs Sleep Quality")
+        fig3 = px.scatter(df, x='Stress_Level', y='Quality_of_Sleep', color='Occupation', trendline='ols',
+                          color_discrete_sequence=px.colors.qualitative.Vivid)
+        st.plotly_chart(fig3)
 
     # Heatmap at the bottom
     st.write("### Heatmap of Lifestyle Factors")
@@ -121,7 +124,7 @@ def page_two():
     sns.heatmap(df[['Physical_Activity_Level', 'Stress_Level', 'Quality_of_Sleep']].corr(), annot=True, cmap='coolwarm')
     st.pyplot(plt)
 
-# Hypothesis 3: Job-related Factors impact on Sleep and Stress (Rail Workers) (with wider columns)
+# Hypothesis 3: Job-related Factors impact on Sleep and Stress (Rail Workers)
 def page_three():
     st.title('Hypothesis 3: Job-Related Factors vs Sleep and Stress (Rail Workers)')
     
@@ -135,8 +138,8 @@ def page_three():
     st.write("### Key Metrics")
     display_scorecards(df, ['Job_Security', 'Surges_in_work', 'Total_life_events'])
 
-    # Arrange visualizations in wider columns
-    col1, col2 = st.columns([2, 2])
+    # Arrange visualizations in 3 wide columns
+    col1, col2, col3 = st.columns([2, 2, 2])
 
     # Pie chart
     with col1:
@@ -152,10 +155,11 @@ def page_three():
         st.plotly_chart(fig2)
 
     # Scatter plot
-    st.write("### Surges in Work vs Total Life Events")
-    fig3 = px.scatter(df, x='Surges_in_work', y='Total_life_events', color='Sex', trendline='ols',
-                      color_discrete_sequence=px.colors.qualitative.Bold)
-    st.plotly_chart(fig3)
+    with col3:
+        st.write("### Surges in Work vs Total Life Events")
+        fig3 = px.scatter(df, x='Surges_in_work', y='Total_life_events', color='Sex', trendline='ols',
+                          color_discrete_sequence=px.colors.qualitative.Bold)
+        st.plotly_chart(fig3)
 
     # Heatmap at the bottom
     st.write("### Heatmap of Job-Related Factors")
