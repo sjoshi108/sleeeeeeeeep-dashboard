@@ -11,17 +11,27 @@ sleep_health_and_lifestyle = pd.read_csv('Sleep_health_and_lifestyle_dataset.csv
 rail_workers_sleep_data = pd.read_csv('rail_workers_sleep_data.csv')
 
 # Set page configuration for wide view
-st.set_page_config(layout="wide", page_title="Sleep and Lifestyle Analysis", page_icon=":bar_chart:")
 
-# Set a background color for the app
-page_bg_color = '''
-<style>
-body {
-background-color: #e0f7fa;
-}
-</style>
-'''
-st.markdown(page_bg_color, unsafe_allow_html=True)
+
+def navigation_buttons():
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        if st.button("Introduction"):
+            st.session_state["page"] = "Introduction"
+    with col2:
+        if st.button("Caffeine and Alcohol vs Sleep"):
+            st.session_state["page"] = "Caffeine and Alcohol vs Sleep"
+    with col3:
+        if st.button("Activity and Stress vs Sleep"):
+            st.session_state["page"] = "Activity and Stress vs Sleep"
+    with col4:
+        if st.button("Job Factors vs Sleep"):
+            st.session_state["page"] = "Job Factors vs Sleep"
+    with col5:
+        if st.button("Conclusion"):
+            st.session_state["page"] = "Conclusion"
+
+st.set_page_config(layout="wide", page_title="Sleep and Lifestyle Analysis", page_icon=":bar_chart:")
 
 # Function for displaying scorecards in a separate row
 def display_scorecards(df, scorecard_columns):
