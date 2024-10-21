@@ -8,10 +8,12 @@ sleep_data_final = pd.read_csv('sleep_data_final.csv')
 sleep_health_and_lifestyle = pd.read_csv('Sleep_health_and_lifestyle_dataset.csv')
 
 # Function for Scorecards
-def display_scorecards(df):
+def display_scorecards(df, sleep_eff_col=None, stress_col=None):
     st.metric('Average Sleep Duration', round(df['Sleep_Duration'].mean(), 2))
-    st.metric('Average Sleep Efficiency', round(df['Sleep_efficiency'].mean(), 2))
-    st.metric('Average Stress Level', round(df['Stress_Level'].mean(), 2))
+    if sleep_eff_col:
+        st.metric('Average Sleep Efficiency', round(df[sleep_eff_col].mean(), 2))
+    if stress_col:
+        st.metric('Average Stress Level', round(df[stress_col].mean(), 2))
 
 # Page for Sleep Data Final
 def sleep_data_final_page():
@@ -25,7 +27,7 @@ def sleep_data_final_page():
         df = sleep_data_final
     
     st.write("## Overview of Sleep Data")
-    display_scorecards(df)
+    display_scorecards(df, sleep_eff_col='Sleep_efficiency')
 
     st.write("### Sleep Duration Distribution")
     fig1 = px.histogram(df, x='Sleep_Duration', nbins=20)
@@ -35,7 +37,6 @@ def sleep_data_final_page():
     fig2 = px.scatter(df, x='Caffeine_consumption', y='Sleep_efficiency', trendline='ols')
     st.plotly_chart(fig2)
 
-    # More visualizations can be added following similar structure
     st.write("### Awakenings vs Sleep Duration")
     fig3 = px.scatter(df, x='Awakenings', y='Sleep_Duration')
     st.plotly_chart(fig3)
@@ -52,7 +53,7 @@ def sleep_health_lifestyle_page():
         df = sleep_health_and_lifestyle
 
     st.write("## Overview of Lifestyle Data")
-    display_scorecards(df)
+    display_scorecards(df, stress_col='Stress_Level')
 
     st.write("### Sleep Duration by Occupation")
     fig1 = px.box(df, x='Occupation', y='Sleep_Duration')
@@ -62,7 +63,6 @@ def sleep_health_lifestyle_page():
     fig2 = px.scatter(df, x='Stress_Level', y='Quality_of_Sleep', trendline='ols')
     st.plotly_chart(fig2)
 
-    # Additional visualizations for lifestyle factors
     st.write("### Physical Activity Level vs Sleep Duration")
     fig3 = px.scatter(df, x='Physical_Activity_Level', y='Sleep_Duration')
     st.plotly_chart(fig3)
@@ -79,5 +79,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
