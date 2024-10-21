@@ -5,6 +5,22 @@ import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+
+st.set_page_config(initial_sidebar_state="collapsed")
+
+st.markdown(
+    """
+<style>
+    [data-testid="collapsedControl"] {
+        display: none
+    }
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
+
+
 # Load the datasets
 sleep_data_final = pd.read_csv('sleep_data_final.csv')
 sleep_health_and_lifestyle = pd.read_csv('Sleep_health_and_lifestyle_dataset.csv')
