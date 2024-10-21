@@ -14,7 +14,12 @@ rail_workers_sleep_data = pd.read_csv('rail_workers_sleep_data.csv')
 st.set_page_config(layout="wide", page_title="Sleep and Lifestyle Analysis", page_icon=":bar_chart:")
 
 
-
+# Function for displaying scorecards in a separate row
+def display_scorecards(df, scorecard_columns):
+    col1, col2, col3 = st.columns(3)
+    for i, col_name in enumerate(scorecard_columns):
+        with [col1, col2, col3][i % 3]:
+            st.metric(col_name, round(df[col_name].mean(), 2))
 
 
 # Introduction Page
