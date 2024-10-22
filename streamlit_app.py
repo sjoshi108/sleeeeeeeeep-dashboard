@@ -119,127 +119,49 @@ def page_two():
     st.pyplot(plt)
 #################################################################################
 
+mport plotly.graph_objects as go
+import statsmodels.api as sm
+
+# Load the dataset
+df = pd.read_csv('/mnt/data/Sleep_health_and_lifestyle_dataset.csv')
+
+# Streamlit App Layout
+st.title("Lifestyle Factors and Sleep Analysis")
+
+# Columns for the three visualizations
+col1, col2, col3 = st.columns(3)
+
+# 1. Daily Stress Levels vs Sleep Quality (Scatter plot)
+with col1:
+    st.header("Stress vs Sleep Quality")
+    fig1 = px.scatter(df, x='Stress_Level', y='Quality_of_Sleep', 
+                      title="Stress Level vs. Sleep Quality",
+                      labels={'Stress_Level':'Stress Level', 'Quality_of_Sleep':'Sleep Quality'},
+                      trendline="ols")
+    st.plotly_chart(fig1)
+
+# 2. Physical Activity vs Sleep Quality (Scatter plot with regression line)
+with col2:
+    st.header("Physical Activity vs Sleep Quality")
+    fig2 = px.scatter(df, x='Physical_Activity_Level', y='Quality_of_Sleep', 
+                      title="Physical Activity Level vs. Sleep Quality",
+                      labels={'Physical_Activity_Level':'Physical Activity Level', 'Quality_of_Sleep':'Sleep Quality'},
+                      trendline="ols")
+    st.plotly_chart(fig2)
+
+# 3. Sleep Quality by Occupation (Bar Chart)
+with col3:
+    st.header("Sleep Quality by Occupation")
+    occupation_sleep = df.groupby('Occupation')['Quality_of_Sleep'].mean().reset_index()
+    fig3 = px.bar(occupation_sleep, x='Occupation', y='Quality_of_Sleep', 
+                  title="Average Sleep Quality by Occupation",
+                  labels={'Quality_of_Sleep':'Average Sleep Quality'},
+                  color='Quality_of_Sleep')
+    fig3.update_layout(xaxis={'categoryorder':'total descending'}, 
+                       xaxis_tickangle=-45, height=500)
+    st.plotly_chart(fig3)
 
 
-
-import ipywidgets as widgets
-from IPython.display import display
-
-df = pd.read_csv("sleep_data_final.csv")  # Replace with your CSV file path
-
-# Dropdown for Age Group
-age_options = ["All", "Teenagers", "20s", "30s", "40s", "50s", "60s"]
-age_dropdown = widgets.Dropdown(
-    options=age_options,
-    description='Age Group:',
-    value='All'
-)
-
-# Dropdown for Gender
-gender_options = ["All", "Male", "Female", "Other"]
-gender_dropdown = widgets.Dropdown(
-    options=gender_options,
-    description='Gender:',
-    value='All'
-)
-
-# Sliders for Alcohol Consumption
-alcohol_slider = widgets.IntRangeSlider(
-    value=[0, 5],
-    min=0,
-    max=int(df['Alcohol_consumption'].max()),
-    step=1,
-    description='Alcohol Consumption:',
-    continuous_update=False
-)
-
-# Sliders for Caffeine Consumption
-caffeine_slider = widgets.IntRangeSlider(
-    value=[0, 5],
-    min=0,
-    max=int(df['Caffeine_consumption'].max()),
-    step=1,
-    description='Caffeine Consumption:',
-    continuous_update=False
-)
-
-display(age_dropdown, gender_dropdown, alcohol_slider, caffeine_slider)
-
-# ---- Function to Filter Data and Plot ----
-def update_metrics(age_group, gender, alcohol_range, caffeine_range):
-    # Define the age group ranges
-    age_ranges = {
-        "Teenagers": (9, 19),
-        "20s": (20, 29),
-        "30s": (30, 39),
-        "40s": (40, 49),
-        "50s": (50, 59),
-        "60s": (60, 69)
-    }
-
-    # Copy original DataFrame to avoid modifying it directly
-    filtered_df = df.copy()
-
-    # Apply Age Filter
-    if age_group != "All":
-        age_min, age_max = age_ranges[age_group]
-        filtered_df = filtered_df[(filtered_df["Age"] >= age_min) & (filtered_df["Age"] <= age_max)]
-
-    # Apply Gender Filter
-    if gender != "All":
-        filtered_df = filtered_df[filtered_df["Gender"] == gender]
-
-    # Apply Alcohol Consumption Filter
-    filtered_df = filtered_df[(filtered_df["Alcohol_consumption"] >= alcohol_range[0]) &
-                              (filtered_df["Alcohol_consumption"] <= alcohol_range[1])]
-
-    # Apply Caffeine Consumption Filter
-    filtered_df = filtered_df[(filtered_df["Caffeine_consumption"] >= caffeine_range[0]) &
-                              (filtered_df["Caffeine_consumption"] <= caffeine_range[1])]
-
-    # Display Filtered Data
-    print(f"Filtered Data: {len(filtered_df)} Participants")
-    display(filtered_df)
-
-    # Add Plots Based on Filtered Data
-    print("Sleep Metrics by Filters")
-
-    # 1. Bar Plot for Sleep Duration
-    fig_duration = px.bar(filtered_df, x="Age", y="Sleep_Duration", color="Gender",
-                          title="Sleep Duration by Age & Gender")
-    fig_duration.show()
-
-    # 2. Bar Plot for Sleep Efficiency
-    fig_efficiency = px.bar(filtered_df, x="Age", y="Sleep_efficiency", color="Gender",
-                             title="Sleep Efficiency by Age & Gender")
-    fig_efficiency.show()
-
-    # 3. Bar Plot for Awakenings
-    fig_awakenings = px.bar(filtered_df, x="Age", y="Awakenings", color="Gender",
-                             title="Awakenings by Age & Gender")
-    fig_awakenings.show()
-
-    # 4. Bar Plot for Light Sleep
-    fig_light_sleep = px.bar(filtered_df, x="Age", y="Light_Sleep_Duration", color="Gender",
-                              title="Light Sleep by Age & Gender")
-    fig_light_sleep.show()
-
-    # 5. Bar Plot for Deep Sleep
-    fig_deep_sleep = px.bar(filtered_df, x="Age", y="Deep_Sleep_Duration", color="Gender",
-                             title="Deep Sleep by Age & Gender")
-    fig_deep_sleep.show()
-
-    # 6. Bar Plot for REM Sleep
-    fig_rem_sleep = px.bar(filtered_df, x="Age", y="Rem_Sleep_Duration", color="Gender",
-                            title="REM Sleep by Age & Gender")
-    fig_rem_sleep.show()
-
-# ---- Observe Widget Changes ----
-widgets.interactive(update_metrics,
-                    age_group=age_dropdown,
-                    gender=gender_dropdown,
-                    alcohol_range=alcohol_slider,
-                    caffeine_range=caffeine_slider)
 
 
 
