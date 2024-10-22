@@ -119,7 +119,7 @@ def page_two():
     st.pyplot(plt)
 #################################################################################
 
-mport plotly.graph_objects as go
+import plotly.graph_objects as go
 import statsmodels.api as sm
 
 # Load the dataset
