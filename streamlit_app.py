@@ -2,199 +2,80 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import seaborn as sns
-import matplotlib.pyplot as plt
 
+# Load datasets
+sleep_data = pd.read_csv("/mnt/data/sleep_data_final.csv")
+health_and_lifestyle_data = pd.read_csv("/mnt/data/Sleep_health_and_lifestyle_dataset.csv")
+rail_workers_data = pd.read_csv("/mnt/data/rail_workers_sleep_data.csv")
 
+# Set wide page layout
+st.set_page_config(layout="wide")
 
-# Load the datasets
-sleep_data_final = pd.read_csv('sleep_data_final.csv')
-sleep_health_and_lifestyle = pd.read_csv('Sleep_health_and_lifestyle_dataset.csv')
-rail_workers_sleep_data = pd.read_csv('rail_workers_sleep_data.csv')
+# Page 1: Introduction
+st.title("Sleep, Lifestyle, and Job Factors: A Data Analysis Journey")
 
-# Set page configuration for wide view
-st.set_page_config(layout="wide", page_title="Sleep and Lifestyle Analysis", page_icon=":bar_chart:")
+st.header("Introduction: The Modern Sleep Problem")
+st.write("""
+Sleep quality is declining globally, influenced by numerous factors including lifestyle choices, consumption habits, and job-related stress.
+In this analysis, we explore how caffeine and alcohol consumption, stress, physical activity, and job-related stress impact sleep efficiency, 
+stress levels, and overall well-being. We are utilizing three datasets:
+- General Sleep Data: Provides individual sleep behaviors (e.g., caffeine, alcohol consumption, and sleep efficiency).
+- Health and Lifestyle Data: Examines how lifestyle attributes such as physical activity and stress affect sleep.
+- Rail Workers' Sleep Data: Focuses on job-related stress and its impact on rail workers' sleep quality.
+""")
 
+# Page 2: Impact of Consumption Habits on Sleep Efficiency
+st.header("Page 2: The Impact of Consumption Habits on Sleep Efficiency")
 
-# Function for displaying scorecards in a separate row
-def display_scorecards(df, scorecard_columns):
-    col1, col2, col3 = st.columns(3)
-    for i, col_name in enumerate(scorecard_columns):
-        with [col1, col2, col3][i % 3]:
-            st.metric(col_name, round(df[col_name].mean(), 2))
+# Graph 1: Caffeine vs Sleep Efficiency
+fig1 = px.scatter(sleep_data, x="Caffeine_consumption", y="Sleep_efficiency", trendline="ols", title="Caffeine Consumption vs Sleep Efficiency")
+st.plotly_chart(fig1, use_container_width=True)
 
+# Graph 2: Alcohol vs Sleep Efficiency
+fig2 = px.scatter(sleep_data, x="Alcohol_consumption", y="Sleep_efficiency", trendline="ols", title="Alcohol Consumption vs Sleep Efficiency")
+st.plotly_chart(fig2, use_container_width=True)
 
-# Introduction Page
-def introduction_page():
-    st.title('Introduction to Sleep and Lifestyle Analysis')
-    st.write('''This app explores the relationship between various lifestyle factors and sleep quality using three datasets:
-                general sleep data, lifestyle data, and rail workers' sleep patterns. Each page focuses on a different hypothesis, 
-                showcasing complex visualizations to highlight correlations and patterns in the data. Additionally, key metrics are 
-                presented in scorecards to provide quick insights.''')
+# Graph 3: Sleep Efficiency by Gender
+fig3 = px.histogram(sleep_data, x="Sleep_efficiency", color="Gender", title="Sleep Efficiency Distribution by Gender")
+st.plotly_chart(fig3, use_container_width=True)
 
-# Hypothesis 1: Caffeine and Alcohol impact on Sleep Efficiency
-def page_one():
-    st.title('Hypothesis 1: Caffeine and Alcohol Consumption vs Sleep Efficiency')
-    
-    st.sidebar.header("Filter Data")
-    gender = st.sidebar.selectbox('Gender', options=['All', 'Male', 'Female'])
-    if gender != 'All':
-        df = sleep_data_final[sleep_data_final['Gender'] == gender]
-    else:
-        df = sleep_data_final
+# Page 3: Lifestyle Factors and Stress
+st.header("Page 3: Lifestyle Factors and Stress")
 
-    st.write("### Key Metrics")
-    display_scorecards(df, ['Caffeine_consumption', 'Alcohol_consumption', 'Sleep_efficiency'])
+# Graph 4: Stress vs Sleep Quality
+fig4 = px.scatter(health_and_lifestyle_data, x="Stress_Level", y="Sleep_Quality", trendline="ols", title="Stress Levels vs Sleep Quality")
+st.plotly_chart(fig4, use_container_width=True)
 
-    # Arrange visualizations in 3 wide columns
-    col1, col2, col3 = st.columns([2, 2, 2])
+# Graph 5: Physical Activity vs Sleep Quality
+fig5 = px.scatter(health_and_lifestyle_data, x="Physical_Activity", y="Sleep_Quality", trendline="ols", title="Physical Activity vs Sleep Quality")
+st.plotly_chart(fig5, use_container_width=True)
 
-    # Pie chart
-    with col1:
-        st.write("### Gender Distribution")
-        fig1 = px.pie(df, names='Gender', title='Gender Distribution', color_discrete_sequence=px.colors.qualitative.Set3)
-        st.plotly_chart(fig1)
+# Graph 6: Sleep Quality by Occupation
+fig6 = px.bar(health_and_lifestyle_data, x="Occupation", y="Sleep_Quality", title="Sleep Quality by Occupation")
+st.plotly_chart(fig6, use_container_width=True)
 
-    # 3D Scatter plot
-    with col2:
-        st.write("### 3D Graph: Caffeine, Alcohol, and Sleep Efficiency")
-        fig2 = px.scatter_3d(df, x='Caffeine_consumption', y='Alcohol_consumption', z='Sleep_efficiency', color='Gender',
-                             color_discrete_sequence=px.colors.qualitative.Dark2)
-        st.plotly_chart(fig2)
+# Page 4: Work-Related Stress Impact on Sleep
+st.header("Page 4: Work-Related Stress Impact on Sleep")
 
-    # Scatter plot for correlation
-    with col3:
-        st.write("### Sleep Efficiency vs Caffeine Consumption")
-        fig3 = px.scatter(df, x='Caffeine_consumption', y='Sleep_efficiency', color='Gender', trendline='ols',
-                          color_discrete_sequence=px.colors.qualitative.Pastel)
-        st.plotly_chart(fig3)
+# Graph 7: Job Security vs Sleep Quality
+fig7 = px.scatter(rail_workers_data, x="Job_Security", y="Sleep_Duration", trendline="ols", title="Job Security vs Sleep Duration")
+st.plotly_chart(fig7, use_container_width=True)
 
-    # Heatmap at the bottom
-    st.write("### Heatmap of Sleep Factors")
-    plt.figure(figsize=(10,6))
-    sns.heatmap(df[['Caffeine_consumption', 'Alcohol_consumption', 'Sleep_efficiency']].corr(), annot=True, cmap='coolwarm')
-    st.pyplot(plt)
+# Graph 8: Work Surges vs Sleep Quality
+fig8 = px.scatter(rail_workers_data, x="Surges_in_work", y="Sleep_Duration", trendline="ols", title="Work Surges vs Sleep Duration")
+st.plotly_chart(fig8, use_container_width=True)
 
-# Hypothesis 2: Physical Activity and Stress impact on Sleep Quality
-def page_two():
-    st.title('Hypothesis 2: Physical Activity and Stress Levels vs Sleep Quality')
-    
-    st.sidebar.header("Filter Data")
-    occupation = st.sidebar.selectbox('Occupation', options=['All'] + sleep_health_and_lifestyle['Occupation'].unique().tolist())
-    if occupation != 'All':
-        df = sleep_health_and_lifestyle[sleep_health_and_lifestyle['Occupation'] == occupation]
-    else:
-        df = sleep_health_and_lifestyle
+# Graph 9: Life Events vs Sleep Quality
+fig9 = px.scatter(rail_workers_data, x="Total_life_events", y="Sleep_Duration", trendline="ols", title="Life Events vs Sleep Duration")
+st.plotly_chart(fig9, use_container_width=True)
 
-    st.write("### Key Metrics")
-    display_scorecards(df, ['Physical_Activity_Level', 'Stress_Level', 'Quality_of_Sleep'])
+# Page 5: Conclusion
+st.header("Page 5: Conclusion")
 
-    # Arrange visualizations in 3 wide columns
-    col1, col2, col3 = st.columns([2, 2, 2])
-
-    # Pie chart
-    with col1:
-        st.write("### Occupation Distribution")
-        fig1 = px.pie(df, names='Occupation', title='Occupation Distribution', color_discrete_sequence=px.colors.qualitative.Set2)
-        st.plotly_chart(fig1)
-
-    # 3D Graph
-    with col2:
-        st.write("### 3D Graph: Physical Activity, Stress Level, and Sleep Quality")
-        fig2 = px.scatter_3d(df, x='Physical_Activity_Level', y='Stress_Level', z='Quality_of_Sleep', color='Occupation',
-                             color_discrete_sequence=px.colors.qualitative.Bold)
-        st.plotly_chart(fig2)
-
-    # Scatter plot
-    with col3:
-        st.write("### Stress Level vs Sleep Quality")
-        fig3 = px.scatter(df, x='Stress_Level', y='Quality_of_Sleep', color='Occupation', trendline='ols',
-                          color_discrete_sequence=px.colors.qualitative.Vivid)
-        st.plotly_chart(fig3)
-
-    # Heatmap at the bottom
-    st.write("### Heatmap of Lifestyle Factors")
-    plt.figure(figsize=(10,6))
-    sns.heatmap(df[['Physical_Activity_Level', 'Stress_Level', 'Quality_of_Sleep']].corr(), annot=True, cmap='coolwarm')
-    st.pyplot(plt)
-#################################################################################
-
-
-
-
-
-
-
-
-################################################################################
-# Hypothesis 3: Job-related Factors impact on Sleep and Stress (Rail Workers)
-def page_three():
-    st.title('Hypothesis 3: Job-Related Factors vs Sleep and Stress (Rail Workers)')
-    
-    st.sidebar.header("Filter Data")
-    job_type = st.sidebar.selectbox('Job Type', options=['All'] + rail_workers_sleep_data['Job_type'].unique().tolist())
-    if job_type != 'All':
-        df = rail_workers_sleep_data[rail_workers_sleep_data['Job_type'] == job_type]
-    else:
-        df = rail_workers_sleep_data
-
-    st.write("### Key Metrics")
-    display_scorecards(df, ['Job_Security', 'Surges_in_work', 'Total_life_events'])
-
-    # Arrange visualizations in 3 wide columns
-    col1, col2, col3 = st.columns([2, 2, 2])
-
-    # Pie chart
-    with col1:
-        st.write("### Job Type Distribution")
-        fig1 = px.pie(df, names='Job_type', title='Job Type Distribution', color_discrete_sequence=px.colors.qualitative.Prism)
-        st.plotly_chart(fig1)
-
-    # 3D Graph
-    with col2:
-        st.write("### 3D Graph: Job Security, Surges in Work, and Sleep Duration")
-        fig2 = px.scatter_3d(df, x='Job_Security', y='Surges_in_work', z='Total_years_present_job', color='Sex',
-                             color_discrete_sequence=px.colors.qualitative.Alphabet)
-        st.plotly_chart(fig2)
-
-    # Scatter plot
-    with col3:
-        st.write("### Surges in Work vs Total Life Events")
-        fig3 = px.scatter(df, x='Surges_in_work', y='Total_life_events', color='Sex', trendline='ols',
-                          color_discrete_sequence=px.colors.qualitative.Bold)
-        st.plotly_chart(fig3)
-
-    # Heatmap at the bottom
-    st.write("### Heatmap of Job-Related Factors")
-    plt.figure(figsize=(10,6))
-    sns.heatmap(df[['Job_Security', 'Surges_in_work', 'Total_years_present_job']].corr(), annot=True, cmap='coolwarm')
-    st.pyplot(plt)
-
-# Conclusion Page
-def page_four():
-    st.title('Conclusion: Insights on Sleep and Lifestyle Factors')
-    st.write('''In conclusion, we explored the relationships between various lifestyle factors and sleep quality. 
-                Caffeine and alcohol showed a noticeable impact on sleep efficiency, while physical activity and 
-                stress levels influenced the quality of sleep. Job-related factors, especially in high-stress roles 
-                such as rail workers, demonstrated correlations between job security, work surges, and stress. 
-                These insights highlight the multifaceted nature of sleep health.''')
-
-# Main App Structure
-def main():
-    st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Go to", ["Introduction", "Caffeine and Alcohol vs Sleep", "Activity and Stress vs Sleep", "Job Factors vs Sleep", "Conclusion"])
-    
-    if page == "Introduction":
-        introduction_page()
-    elif page == "Caffeine and Alcohol vs Sleep":
-        page_one()
-    elif page == "Activity and Stress vs Sleep":
-        page_two()
-    elif page == "Job Factors vs Sleep":
-        page_three()
-    elif page == "Conclusion":
-        page_four()
-
-if __name__ == "__main__":
-    main()
-
+st.write("""
+Through this analysis, we have uncovered key insights about the various factors influencing sleep quality:
+1. **Consumption habits** like caffeine and alcohol consumption have a notable impact on sleep efficiency, with alcohol showing a stronger negative correlation.
+2. **Stress levels** and **physical activity** play a significant role in sleep quality, with higher physical activity linked to better sleep outcomes.
+3. In the case of **rail workers**, job insecurity and work surges directly contribute to reduced sleep quality, highlighting the importance of addressing job-related stress.
+By addressing these factors, individuals and organizations can take steps toward improving sleep health and overall well-being.
+""")
