@@ -90,6 +90,7 @@ elif page == "Work-Related Stress & Sleep":
         st.plotly_chart(fig9, use_container_width=True)
 
 
+ 
     import plotly.express as px
     import plotly.graph_objects as go
     
@@ -136,10 +137,7 @@ elif page == "Work-Related Stress & Sleep":
         sleep_loss_corr_renamed = sleep_loss_corr.rename(index=variable_labels).to_frame()
         sleep_loss_corr_renamed.columns = ['Sleep Loss']
         
-        # Display the correlation results in the Streamlit app
-        st.header("Correlation Analysis: Stress Factors and Sleep Loss")
-        st.write("Here are the correlations between sleep loss and stress-related factors:")
-        st.dataframe(sleep_loss_corr_renamed)
+        
     
         # Plot the heatmap using Plotly
         st.subheader("Heatmap of Correlation with Sleep Loss")
@@ -222,9 +220,7 @@ elif page == "Work-Related Stress & Sleep":
     # Show the updated plot in Streamlit
     st.plotly_chart(fig)
     
-    # Optionally, display the table with the coefficients
-    st.write("Top 5 Predictors of Sleep Loss")
-    st.dataframe(significant_coeffs.head(5))
+    
     
         
 
