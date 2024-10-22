@@ -90,63 +90,8 @@ elif page == "Work-Related Stress & Sleep":
         st.plotly_chart(fig9, use_container_width=True)
 
 
- 
 
 
-        from sklearn.linear_model import LinearRegression
-        from sklearn.model_selection import train_test_split
-        
-        # Load the rail workers dataset
-        
-        
-        # Define the stress-related columns and the target variable (Sleep_loss)
-        stress_columns = [
-            'Job_pressure', 'Emergencies', 'Lack_of_control', 'Mgmt_policies',
-            'Surges_in_work', 'Communication', 'Inadeq_Staff', 'Resp_for_others_safety',
-            'BreakTime', 'TimeOff'
-        ]
-        target_column = 'Sleep_loss'
-        
-        # Split the data into features (X) and target (y)
-        X = df_railworkers_clean[stress_columns]
-        y = df_railworkers_clean[target_column]
-        
-        # Train-test split for model training
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        
-        # Train a linear regression model
-        model = LinearRegression()
-        model.fit(X_train, y_train)
-        
-        # Dictionary for more descriptive labels
-        variable_labels = {
-            'Job_pressure': 'Job Pressure',
-            'Emergencies': 'Emergencies',
-            'Lack_of_control': 'Lack of Control',
-            'Mgmt_policies': 'Management Policies',
-            'Surges_in_work': 'Work Surges',
-            'Communication': 'Communication',
-            'Inadeq_Staff': 'Inadequate Staffing',
-            'Resp_for_others_safety': 'Responsibility for Others\' Safety',
-            'BreakTime': 'Break Time',
-            'TimeOff': 'Time Off'
-        }
-        
-        # Display significant coefficients with readable labels
-        significant_coeffs = pd.DataFrame({
-            'Variable': stress_columns,
-            'Coefficient': model.coef_
-        }).sort_values(by='Coefficient', ascending=False)
-        
-        # Map the variables to more descriptive labels
-        significant_coeffs['Variable'] = significant_coeffs['Variable'].map(variable_labels)
-        
-        # Plot the bar chart with the updated labels
-        fig = px.bar(significant_coeffs.head(5), x='Coefficient', y='Variable', orientation='h', 
-                     title='Top 5 Predictors of Sleep Loss')
-        
-        # Show the updated plot in Streamlit
-        st.plotly_chart(fig)
         
 
         import plotly.express as px
@@ -222,6 +167,64 @@ elif page == "Work-Related Stress & Sleep":
         except KeyError as e:
             st.error(f"Error: {e}")
 
+
+
+
+
+        from sklearn.linear_model import LinearRegression
+        from sklearn.model_selection import train_test_split
+        
+        # Load the rail workers dataset
+        
+        
+        # Define the stress-related columns and the target variable (Sleep_loss)
+        stress_columns = [
+            'Job_pressure', 'Emergencies', 'Lack_of_control', 'Mgmt_policies',
+            'Surges_in_work', 'Communication', 'Inadeq_Staff', 'Resp_for_others_safety',
+            'BreakTime', 'TimeOff'
+        ]
+        target_column = 'Sleep_loss'
+        
+        # Split the data into features (X) and target (y)
+        X = df_railworkers_clean[stress_columns]
+        y = df_railworkers_clean[target_column]
+        
+        # Train-test split for model training
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        # Train a linear regression model
+        model = LinearRegression()
+        model.fit(X_train, y_train)
+        
+        # Dictionary for more descriptive labels
+        variable_labels = {
+            'Job_pressure': 'Job Pressure',
+            'Emergencies': 'Emergencies',
+            'Lack_of_control': 'Lack of Control',
+            'Mgmt_policies': 'Management Policies',
+            'Surges_in_work': 'Work Surges',
+            'Communication': 'Communication',
+            'Inadeq_Staff': 'Inadequate Staffing',
+            'Resp_for_others_safety': 'Responsibility for Others\' Safety',
+            'BreakTime': 'Break Time',
+            'TimeOff': 'Time Off'
+        }
+        
+        # Display significant coefficients with readable labels
+        significant_coeffs = pd.DataFrame({
+            'Variable': stress_columns,
+            'Coefficient': model.coef_
+        }).sort_values(by='Coefficient', ascending=False)
+        
+        # Map the variables to more descriptive labels
+        significant_coeffs['Variable'] = significant_coeffs['Variable'].map(variable_labels)
+        
+        # Plot the bar chart with the updated labels
+        fig = px.bar(significant_coeffs.head(5), x='Coefficient', y='Variable', orientation='h', 
+                     title='Top 5 Predictors of Sleep Loss')
+        
+        # Show the updated plot in Streamlit
+        st.plotly_chart(fig)
     
     
     
