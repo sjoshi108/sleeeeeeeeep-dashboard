@@ -167,10 +167,30 @@ elif page == "Work-Related Stress & Sleep":
         st.error(f"Error: {e}")
 
 
-
+    from sklearn.linear_model import LinearRegression
+    from sklearn.model_selection import train_test_split
     
-    # Assuming model is already trained and has 'coef_' attribute
-    # Replace 'model' with your actual trained model object in the app
+    # Load the rail workers dataset
+    
+    
+    # Define the stress-related columns and the target variable (Sleep_loss)
+    stress_columns = [
+        'Job_pressure', 'Emergencies', 'Lack_of_control', 'Mgmt_policies',
+        'Surges_in_work', 'Communication', 'Inadeq_Staff', 'Resp_for_others_safety',
+        'BreakTime', 'TimeOff'
+    ]
+    target_column = 'Sleep_loss'
+    
+    # Split the data into features (X) and target (y)
+    X = df_railworkers_clean[stress_columns]
+    y = df_railworkers_clean[target_column]
+    
+    # Train-test split for model training
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    # Train a linear regression model
+    model = LinearRegression()
+    model.fit(X_train, y_train)
     
     # Dictionary for more descriptive labels
     variable_labels = {
@@ -186,9 +206,6 @@ elif page == "Work-Related Stress & Sleep":
         'TimeOff': 'Time Off'
     }
     
-    # Assuming the stress_columns is the list of feature names used in the model
-    # Replace 'stress_columns' with your actual list of stress-related features used in the model
-    
     # Display significant coefficients with readable labels
     significant_coeffs = pd.DataFrame({
         'Variable': stress_columns,
@@ -199,18 +216,17 @@ elif page == "Work-Related Stress & Sleep":
     significant_coeffs['Variable'] = significant_coeffs['Variable'].map(variable_labels)
     
     # Plot the bar chart with the updated labels
-    fig = px.bar(significant_coeffs.head(5), x='Coefficient', y='Variable', orientation='h',
+    fig = px.bar(significant_coeffs.head(5), x='Coefficient', y='Variable', orientation='h', 
                  title='Top 5 Predictors of Sleep Loss')
     
     # Show the updated plot in Streamlit
     st.plotly_chart(fig)
     
-    # Optional: Show the table of coefficients
+    # Optionally, display the table with the coefficients
     st.write("Top 5 Predictors of Sleep Loss")
     st.dataframe(significant_coeffs.head(5))
-
-
-
+    
+        
 
 
 
