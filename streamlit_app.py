@@ -10,6 +10,7 @@ rail_workers_data = pd.read_csv("rail_workers_sleep_data.csv")
 
 # Set wide page layout
 st.set_page_config(layout="wide")
+
 # Sidebar navigation
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Go to", ["Introduction", "Consumption Habits & Sleep Efficiency", "Lifestyle Factors & Stress", "Work-Related Stress & Sleep", "Conclusion"])
@@ -35,17 +36,17 @@ elif page == "Consumption Habits & Sleep Efficiency":
     # Graph 1: Caffeine vs Sleep Efficiency - Scatter plot with distinct color
     with col1:
         fig1 = px.scatter(sleep_data, x="Caffeine_consumption", y="Sleep_efficiency", trendline="ols", 
-                          title="Caffeine Consumption vs Sleep Efficiency")
+                          title="Caffeine Consumption vs Sleep Efficiency", color_discrete_sequence=["#FF6347"])
         st.plotly_chart(fig1, use_container_width=True)
     
     # Graph 2: Alcohol vs Sleep Efficiency - Box plot for better comparison
     with col2:
-        fig2 = px.box(sleep_data, x="Alcohol_consumption", y="Sleep_efficiency", title="Alcohol Consumption vs Sleep Efficiency")
+        fig2 = px.box(sleep_data, x="Alcohol_consumption", y="Sleep_efficiency", title="Alcohol Consumption vs Sleep Efficiency", color_discrete_sequence=["#20B2AA"])
         st.plotly_chart(fig2, use_container_width=True)
     
     # Graph 3: Sleep Efficiency by Gender - Histogram
     with col3:
-        fig3 = px.histogram(sleep_data, x="Sleep_efficiency", color="Gender", title="Sleep Efficiency Distribution by Gender")
+        fig3 = px.histogram(sleep_data, x="Sleep_efficiency", color="Gender", title="Sleep Efficiency Distribution by Gender", color_discrete_sequence=["#FF1493", "#1E90FF"])
         st.plotly_chart(fig3, use_container_width=True)
 
 # Page 3: Lifestyle Factors & Stress
@@ -55,17 +56,17 @@ elif page == "Lifestyle Factors & Stress":
 
     # Graph 4: Stress vs Sleep Quality - Scatter plot
     with col1:
-        fig4 = px.scatter(health_and_lifestyle_data, x="Stress_Level", y="Quality_of_Sleep", trendline="ols", title="Stress Levels vs Quality of Sleep")
+        fig4 = px.scatter(health_and_lifestyle_data, x="Stress_Level", y="Quality_of_Sleep", trendline="ols", title="Stress Levels vs Quality of Sleep", color_discrete_sequence=["#32CD32"])
         st.plotly_chart(fig4, use_container_width=True)
     
-    # Graph 5: Physical Activity vs Sleep Quality - Line plot for trend visualization
+    # Graph 5: Physical Activity vs Sleep Quality - Bar plot (changed from line plot)
     with col2:
-        fig5 = px.line(health_and_lifestyle_data, x="Physical_Activity_Level", y="Quality_of_Sleep", title="Physical Activity vs Quality of Sleep")
+        fig5 = px.bar(health_and_lifestyle_data, x="Physical_Activity_Level", y="Quality_of_Sleep", title="Physical Activity vs Quality of Sleep", color_discrete_sequence=["#FFD700"])
         st.plotly_chart(fig5, use_container_width=True)
     
     # Graph 6: Sleep Quality by Occupation - Bar chart
     with col3:
-        fig6 = px.bar(health_and_lifestyle_data, x="Occupation", y="Quality_of_Sleep", title="Quality of Sleep by Occupation")
+        fig6 = px.bar(health_and_lifestyle_data, x="Occupation", y="Quality_of_Sleep", title="Quality of Sleep by Occupation", color_discrete_sequence=["#4682B4"])
         st.plotly_chart(fig6, use_container_width=True)
 
 # Page 4: Work-Related Stress & Sleep
@@ -75,17 +76,17 @@ elif page == "Work-Related Stress & Sleep":
 
     # Graph 7: Job Security vs Sleep Loss - Scatter plot
     with col1:
-        fig7 = px.scatter(rail_workers_data, x="Job_Security", y="Sleep_loss", trendline="ols", title="Job Security vs Sleep Loss")
+        fig7 = px.scatter(rail_workers_data, x="Job_Security", y="Sleep_loss", trendline="ols", title="Job Security vs Sleep Loss", color_discrete_sequence=["#FF4500"])
         st.plotly_chart(fig7, use_container_width=True)
     
     # Graph 8: Work Surges vs Sleep Loss - Heatmap for correlation visualization
     with col2:
-        fig8 = px.density_heatmap(rail_workers_data, x="Surges_in_work", y="Sleep_loss", title="Work Surges vs Sleep Loss")
+        fig8 = px.density_heatmap(rail_workers_data, x="Surges_in_work", y="Sleep_loss", title="Work Surges vs Sleep Loss", color_continuous_scale="Viridis")
         st.plotly_chart(fig8, use_container_width=True)
     
     # Graph 9: Life Events vs Sleep Loss - Scatter plot
     with col3:
-        fig9 = px.scatter(rail_workers_data, x="Total_life_events", y="Sleep_loss", trendline="ols", title="Life Events vs Sleep Loss")
+        fig9 = px.scatter(rail_workers_data, x="Total_life_events", y="Sleep_loss", trendline="ols", title="Life Events vs Sleep Loss", color_discrete_sequence=["#8A2BE2"])
         st.plotly_chart(fig9, use_container_width=True)
 
 # Page 5: Conclusion
@@ -98,6 +99,7 @@ elif page == "Conclusion":
     3. In the case of **rail workers**, job insecurity and work surges directly contribute to reduced sleep quality, highlighting the importance of addressing job-related stress.
     By addressing these factors, individuals and organizations can take steps toward improving sleep health and overall well-being.
     """)
+
 
 
 
