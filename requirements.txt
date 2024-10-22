@@ -5,3 +5,5 @@ numpy
 plotly.express
 ipywidgets
 seaborn
+plotly.graph_objects
+statsmodels.api
