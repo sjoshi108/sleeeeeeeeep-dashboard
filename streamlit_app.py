@@ -122,9 +122,6 @@ def page_two():
 import plotly.graph_objects as go
 import statsmodels.api as sm
 
-# Load the dataset
-df = pd.read_csv('/mnt/data/Sleep_health_and_lifestyle_dataset.csv')
-
 # Streamlit App Layout
 st.title("Lifestyle Factors and Sleep Analysis")
 
