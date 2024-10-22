@@ -72,7 +72,7 @@ elif page == "Lifestyle Factors & Stress":
 # Page 4: Work-Related Stress & Sleep
 elif page == "Work-Related Stress & Sleep":
     st.header("Page 4: Work-Related Stress Impact on Sleep")
-    col1, col2 st.columns(2)
+    col1, col2 = st.columns(2)
 
     # Graph 7: Job Security vs Sleep Loss - Scatter plot
     with col1:
