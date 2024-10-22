@@ -88,7 +88,102 @@ elif page == "Work-Related Stress & Sleep":
     with col3:
         fig9 = px.scatter(rail_workers_data, x="Total_life_events", y="Sleep_loss", trendline="ols", title="Life Events vs Sleep Loss", color_discrete_sequence=["#8A2BE2"])
         st.plotly_chart(fig9, use_container_width=True)
+##############################################
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+df_railworkers_clean = pd.read_csv("df_railworkers_clean(1).csv")
+
+# Correlation Analysis Function
+def perform_correlation_analysis(df, stress_columns):
+    # Ensure all columns in the list exist in the DataFrame before performing correlation
+    missing_columns = [col for col in stress_columns + ['Sleep_loss'] if col not in df.columns]
+    if missing_columns:
+        raise KeyError(f"The following columns are missing from the DataFrame: {missing_columns}")
+
+    correlation_matrix = df[stress_columns + ['Sleep_loss']].corr()
+    return correlation_matrix['Sleep_loss'].sort_values(ascending=False)
+
+# Full list of stress-related columns
+stress_columns = [
+    'Job_pressure', 'Emergencies', 'Lack_of_control', 'Mgmt_policies',
+    'Surges_in_work', 'Communication', 'Inadeq_Staff', 'Resp_for_others_safety',
+    'BreakTime', 'TimeOff'
+]
+
+# Run the correlation analysis
+try:
+    sleep_loss_corr = perform_correlation_analysis(df_railworkers_clean, stress_columns)
+    
+    # Display the correlation results in the Streamlit app
+    st.header("Correlation Analysis: Stress Factors and Sleep Loss")
+    st.write("Here are the correlations between sleep loss and stress-related factors:")
+    st.dataframe(sleep_loss_corr)
+    
+except KeyError as e:
+    st.error(f"Error: {e}")
+##########################################
 # Page 5: Conclusion
 elif page == "Conclusion":
     st.header("Page 5: Conclusion")
