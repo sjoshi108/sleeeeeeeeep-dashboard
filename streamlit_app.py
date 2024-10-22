@@ -88,7 +88,11 @@ elif page == "Work-Related Stress & Sleep":
     with col3:
         fig9 = px.scatter(rail_workers_data, x="Total_life_events", y="Sleep_loss", trendline="ols", title="Life Events vs Sleep Loss", color_discrete_sequence=["#8A2BE2"])
         st.plotly_chart(fig9, use_container_width=True)
-##############################################
+
+
+
+
+
 
 import plotly.express as px
 import plotly.graph_objects as go
@@ -167,8 +171,11 @@ except KeyError as e:
     st.error(f"Error: {e}")
 
 
-    
-##########################################
+
+
+
+
+
 # Page 5: Conclusion
 elif page == "Conclusion":
     st.header("Page 5: Conclusion")
