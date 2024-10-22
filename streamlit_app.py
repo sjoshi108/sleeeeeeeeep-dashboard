@@ -62,7 +62,7 @@ elif page == "Lifestyle Factors & Stress":
     # Graph 5: Physical Activity vs Sleep Quality - Bar plot (changed from line plot)
     with col2:
         fig100 = px.scatter_3d(health_and_lifestyle_data, x='Physical_Activity_Level', y='Stress_Level', z='Sleep_Duration', 
-            color='Age', title="Interaction of Physical Activity, Stress Level, and Sleep Duration with Age",
+            color='Physical_Activity_Level', title="Interaction of Physical Activity, Stress Level, and Sleep Duration with Age",
             labels={'Physical_Activity_Level': 'Physical Activity', 'Stress_Level': 'Stress Level', 'Sleep_Duration': 'Sleep Duration', 'Age': 'Age'})
         st.plotly_chart(fig100, use_container_width=True)
     
