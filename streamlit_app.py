@@ -69,6 +69,28 @@ elif page == "Lifestyle Factors & Stress":
         fig6 = px.bar(health_and_lifestyle_data, x="Occupation", y="Quality_of_Sleep", title="Quality of Sleep by Occupation", color_discrete_sequence=["#4682B4"])
         st.plotly_chart(fig6, use_container_width=True)
 
+
+
+    fig100 = px.scatter_3d(df, x='Physical_Activity_Level', y='Stress_Level', z='Sleep_Duration', 
+                     color='Age', title="Interaction of Physical Activity, Stress Level, and Sleep Duration with Age",
+                     labels={'Physical_Activity_Level': 'Physical Activity', 'Stress_Level': 'Stress Level',
+                             'Sleep_Duration': 'Sleep Duration', 'Age': 'Age'})
+
+    st.plotly_chart(fig100, use_container_width=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Page 4: Work-Related Stress & Sleep
 elif page == "Work-Related Stress & Sleep":
     st.header("Page 4: Work-Related Stress Impact on Sleep")
