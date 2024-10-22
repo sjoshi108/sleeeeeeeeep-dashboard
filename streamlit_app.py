@@ -76,6 +76,23 @@ elif page == "Work-Related Stress & Sleep":
 
     # Graph 7: Job Security vs Sleep Loss - Scatter plot
     with col1:
+        fig7 = px.scatter(rail_workers_data, x="Job_Security", y="Sleep_loss", trendline="ols", title="Job Security vs Sleep Loss", color_discrete_sequence=["#FF4500"])
+        st.plotly_chart(fig7, use_container_width=True)
+    
+    # Graph 8: Work Surges vs Sleep Loss - Heatmap for correlation visualization
+    with col2:
+        fig8 = px.density_heatmap(rail_workers_data, x="Surges_in_work", y="Sleep_loss", title="Work Surges vs Sleep Loss", color_continuous_scale="Viridis")
+        st.plotly_chart(fig8, use_container_width=True)
+    
+    # Graph 9: Life Events vs Sleep Loss - Scatter plot
+    with col3:
+        fig9 = px.scatter(rail_workers_data, x="Total_life_events", y="Sleep_loss", trendline="ols", title="Life Events vs Sleep Loss", color_discrete_sequence=["#8A2BE2"])
+        st.plotly_chart(fig9, use_container_width=True)
+
+
+ 
+
+
         from sklearn.linear_model import LinearRegression
         from sklearn.model_selection import train_test_split
         
@@ -131,8 +148,7 @@ elif page == "Work-Related Stress & Sleep":
         # Show the updated plot in Streamlit
         st.plotly_chart(fig)
         
-    # Graph 8: Work Surges vs Sleep Loss - Heatmap for correlation visualization
-    with col2:
+:
         import plotly.express as px
         import plotly.graph_objects as go
         
@@ -205,17 +221,6 @@ elif page == "Work-Related Stress & Sleep":
         
         except KeyError as e:
             st.error(f"Error: {e}")
-    
-    # Graph 9: Life Events vs Sleep Loss - Scatter plot
-    with col3:
-        fig9 = px.scatter(rail_workers_data, x="Total_life_events", y="Sleep_loss", trendline="ols", title="Life Events vs Sleep Loss", color_discrete_sequence=["#8A2BE2"])
-        st.plotly_chart(fig9, use_container_width=True)
-
-
- 
-
-
-
 
     
     
