@@ -148,7 +148,7 @@ elif page == "Work-Related Stress & Sleep":
         # Show the updated plot in Streamlit
         st.plotly_chart(fig)
         
-:
+
         import plotly.express as px
         import plotly.graph_objects as go
         
