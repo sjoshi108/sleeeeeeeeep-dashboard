@@ -42,30 +42,30 @@ st.plotly_chart(fig3, use_container_width=True)
 # Page 3: Lifestyle Factors and Stress
 st.header("Page 3: Lifestyle Factors and Stress")
 
-# Graph 4: Stress vs Sleep Quality
-fig4 = px.scatter(health_and_lifestyle_data, x="Stress_Level", y="Sleep_Quality", trendline="ols", title="Stress Levels vs Sleep Quality")
+# Graph 4: Stress vs Sleep Quality (Corrected to Quality_of_Sleep)
+fig4 = px.scatter(health_and_lifestyle_data, x="Stress_Level", y="Quality_of_Sleep", trendline="ols", title="Stress Levels vs Quality of Sleep")
 st.plotly_chart(fig4, use_container_width=True)
 
-# Graph 5: Physical Activity vs Sleep Quality
-fig5 = px.scatter(health_and_lifestyle_data, x="Physical_Activity", y="Sleep_Quality", trendline="ols", title="Physical Activity vs Sleep Quality")
+# Graph 5: Physical Activity vs Sleep Quality (Corrected to Quality_of_Sleep)
+fig5 = px.scatter(health_and_lifestyle_data, x="Physical_Activity_Level", y="Quality_of_Sleep", trendline="ols", title="Physical Activity vs Quality of Sleep")
 st.plotly_chart(fig5, use_container_width=True)
 
-# Graph 6: Sleep Quality by Occupation
-fig6 = px.bar(health_and_lifestyle_data, x="Occupation", y="Sleep_Quality", title="Sleep Quality by Occupation")
+# Graph 6: Sleep Quality by Occupation (Corrected to Quality_of_Sleep)
+fig6 = px.bar(health_and_lifestyle_data, x="Occupation", y="Quality_of_Sleep", title="Quality of Sleep by Occupation")
 st.plotly_chart(fig6, use_container_width=True)
 
 # Page 4: Work-Related Stress Impact on Sleep
 st.header("Page 4: Work-Related Stress Impact on Sleep")
 
-# Graph 7: Job Security vs Sleep Quality
+# Graph 7: Job Security vs Sleep Quality (Sleep Duration used as sleep proxy)
 fig7 = px.scatter(rail_workers_data, x="Job_Security", y="Sleep_Duration", trendline="ols", title="Job Security vs Sleep Duration")
 st.plotly_chart(fig7, use_container_width=True)
 
-# Graph 8: Work Surges vs Sleep Quality
+# Graph 8: Work Surges vs Sleep Quality (Sleep Duration used as sleep proxy)
 fig8 = px.scatter(rail_workers_data, x="Surges_in_work", y="Sleep_Duration", trendline="ols", title="Work Surges vs Sleep Duration")
 st.plotly_chart(fig8, use_container_width=True)
 
-# Graph 9: Life Events vs Sleep Quality
+# Graph 9: Life Events vs Sleep Quality (Sleep Duration used as sleep proxy)
 fig9 = px.scatter(rail_workers_data, x="Total_life_events", y="Sleep_Duration", trendline="ols", title="Life Events vs Sleep Duration")
 st.plotly_chart(fig9, use_container_width=True)
 
