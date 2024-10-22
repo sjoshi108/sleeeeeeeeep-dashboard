@@ -168,6 +168,48 @@ elif page == "Work-Related Stress & Sleep":
 
 
 
+    
+    # Assuming model is already trained and has 'coef_' attribute
+    # Replace 'model' with your actual trained model object in the app
+    
+    # Dictionary for more descriptive labels
+    variable_labels = {
+        'Job_pressure': 'Job Pressure',
+        'Emergencies': 'Emergencies',
+        'Lack_of_control': 'Lack of Control',
+        'Mgmt_policies': 'Management Policies',
+        'Surges_in_work': 'Work Surges',
+        'Communication': 'Communication',
+        'Inadeq_Staff': 'Inadequate Staffing',
+        'Resp_for_others_safety': 'Responsibility for Others\' Safety',
+        'BreakTime': 'Break Time',
+        'TimeOff': 'Time Off'
+    }
+    
+    # Assuming the stress_columns is the list of feature names used in the model
+    # Replace 'stress_columns' with your actual list of stress-related features used in the model
+    
+    # Display significant coefficients with readable labels
+    significant_coeffs = pd.DataFrame({
+        'Variable': stress_columns,
+        'Coefficient': model.coef_
+    }).sort_values(by='Coefficient', ascending=False)
+    
+    # Map the variables to more descriptive labels
+    significant_coeffs['Variable'] = significant_coeffs['Variable'].map(variable_labels)
+    
+    # Plot the bar chart with the updated labels
+    fig = px.bar(significant_coeffs.head(5), x='Coefficient', y='Variable', orientation='h',
+                 title='Top 5 Predictors of Sleep Loss')
+    
+    # Show the updated plot in Streamlit
+    st.plotly_chart(fig)
+    
+    # Optional: Show the table of coefficients
+    st.write("Top 5 Predictors of Sleep Loss")
+    st.dataframe(significant_coeffs.head(5))
+
+
 
 
 
