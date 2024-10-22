@@ -5,4 +5,4 @@ numpy
 plotly.express
 ipywidgets
 seaborn
-sklearn
+scikit-learn
