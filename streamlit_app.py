@@ -90,70 +90,26 @@ elif page == "Work-Related Stress & Sleep":
         st.plotly_chart(fig9, use_container_width=True)
 ##############################################
 
+mport plotly.express as px
+import plotly.graph_objects as go
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Load your newly uploaded rail workers dataset
 df_railworkers_clean = pd.read_csv("df_railworkers_clean(1).csv")
+
+# Dictionary for more descriptive labels
+variable_labels = {
+    'Job_pressure': 'Job Pressure',
+    'Emergencies': 'Emergencies',
+    'Lack_of_control': 'Lack of Control',
+    'Mgmt_policies': 'Management Policies',
+    'Surges_in_work': 'Work Surges',
+    'Communication': 'Communication',
+    'Inadeq_Staff': 'Inadequate Staffing',
+    'Resp_for_others_safety': 'Responsibility for Others\' Safety',
+    'BreakTime': 'Break Time',
+    'TimeOff': 'Time Off',
+    'Sleep_loss': 'Sleep Loss'
+}
 
 # Correlation Analysis Function
 def perform_correlation_analysis(df, stress_columns):
@@ -176,13 +132,42 @@ stress_columns = [
 try:
     sleep_loss_corr = perform_correlation_analysis(df_railworkers_clean, stress_columns)
     
+    # Rename the index in the Series and convert it to a DataFrame with 'Sleep Loss' as the column name
+    sleep_loss_corr_renamed = sleep_loss_corr.rename(index=variable_labels).to_frame()
+    sleep_loss_corr_renamed.columns = ['Sleep Loss']
+    
     # Display the correlation results in the Streamlit app
     st.header("Correlation Analysis: Stress Factors and Sleep Loss")
     st.write("Here are the correlations between sleep loss and stress-related factors:")
-    st.dataframe(sleep_loss_corr)
-    
+    st.dataframe(sleep_loss_corr_renamed)
+
+    # Plot the heatmap using Plotly
+    st.subheader("Heatmap of Correlation with Sleep Loss")
+    fig = go.Figure(data=go.Heatmap(
+        z=sleep_loss_corr_renamed['Sleep Loss'].values.reshape(1, -1),  # reshape for heatmap
+        x=sleep_loss_corr_renamed.index,
+        y=['Sleep Loss'],
+        colorscale='Viridis',
+        showscale=True,
+        zmin=-1,  # correlation ranges from -1 to 1
+        zmax=1
+    ))
+
+    fig.update_layout(
+        title="Correlation of Stress Factors with Sleep Loss",
+        xaxis_title="Stress Factors",
+        yaxis_title="",
+        height=400
+    )
+
+    # Show the heatmap in Streamlit
+    st.plotly_chart(fig)
+
 except KeyError as e:
     st.error(f"Error: {e}")
+
+
+    
 ##########################################
 # Page 5: Conclusion
 elif page == "Conclusion":
