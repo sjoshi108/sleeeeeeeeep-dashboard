@@ -90,7 +90,7 @@ elif page == "Work-Related Stress & Sleep":
         st.plotly_chart(fig9, use_container_width=True)
 ##############################################
 
-mport plotly.express as px
+import plotly.express as px
 import plotly.graph_objects as go
 
 # Load your newly uploaded rail workers dataset
