@@ -119,44 +119,7 @@ def page_two():
     st.pyplot(plt)
 #################################################################################
 
-import plotly.graph_objects as go
-import statsmodels.api as sm
 
-# Streamlit App Layout
-st.title("Lifestyle Factors and Sleep Analysis")
-
-# Columns for the three visualizations
-col1, col2, col3 = st.columns(3)
-
-# 1. Daily Stress Levels vs Sleep Quality (Scatter plot)
-with col1:
-    st.header("Stress vs Sleep Quality")
-    fig1 = px.scatter(df, x='Stress_Level', y='Quality_of_Sleep', 
-                      title="Stress Level vs. Sleep Quality",
-                      labels={'Stress_Level':'Stress Level', 'Quality_of_Sleep':'Sleep Quality'},
-                      trendline="ols")
-    st.plotly_chart(fig1)
-
-# 2. Physical Activity vs Sleep Quality (Scatter plot with regression line)
-with col2:
-    st.header("Physical Activity vs Sleep Quality")
-    fig2 = px.scatter(df, x='Physical_Activity_Level', y='Quality_of_Sleep', 
-                      title="Physical Activity Level vs. Sleep Quality",
-                      labels={'Physical_Activity_Level':'Physical Activity Level', 'Quality_of_Sleep':'Sleep Quality'},
-                      trendline="ols")
-    st.plotly_chart(fig2)
-
-# 3. Sleep Quality by Occupation (Bar Chart)
-with col3:
-    st.header("Sleep Quality by Occupation")
-    occupation_sleep = df.groupby('Occupation')['Quality_of_Sleep'].mean().reset_index()
-    fig3 = px.bar(occupation_sleep, x='Occupation', y='Quality_of_Sleep', 
-                  title="Average Sleep Quality by Occupation",
-                  labels={'Quality_of_Sleep':'Average Sleep Quality'},
-                  color='Quality_of_Sleep')
-    fig3.update_layout(xaxis={'categoryorder':'total descending'}, 
-                       xaxis_tickangle=-45, height=500)
-    st.plotly_chart(fig3)
 
 
 
