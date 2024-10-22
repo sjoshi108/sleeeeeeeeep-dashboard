@@ -72,7 +72,7 @@ elif page == "Lifestyle Factors & Stress":
 # Page 4: Work-Related Stress & Sleep
 elif page == "Work-Related Stress & Sleep":
     st.header("Page 4: Work-Related Stress Impact on Sleep")
-    col1, col2, col3 = st.columns(3)
+    col1, col2 st.columns(2)
 
     # Graph 7: Job Security vs Sleep Loss - Scatter plot
     with col1:
@@ -212,11 +212,7 @@ elif page == "Work-Related Stress & Sleep":
         # Show the updated plot in Streamlit
         st.plotly_chart(fig)
 
-    
-    # Graph 9: Life Events vs Sleep Loss - Scatter plot
-    with col3:
-        fig9 = px.scatter(rail_workers_data, x="Total_life_events", y="Sleep_loss", trendline="ols", title="Life Events vs Sleep Loss", color_discrete_sequence=["#8A2BE2"])
-        st.plotly_chart(fig9, use_container_width=True)
+
 
 
 
