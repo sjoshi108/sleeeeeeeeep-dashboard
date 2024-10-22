@@ -4,9 +4,9 @@ import pandas as pd
 import plotly.express as px
 
 # Load datasets
-sleep_data = pd.read_csv("/mnt/data/sleep_data_final.csv")
-health_and_lifestyle_data = pd.read_csv("/mnt/data/Sleep_health_and_lifestyle_dataset.csv")
-rail_workers_data = pd.read_csv("/mnt/data/rail_workers_sleep_data.csv")
+sleep_data = pd.read_csv("sleep_data_final.csv")
+health_and_lifestyle_data = pd.read_csv("Sleep_health_and_lifestyle_dataset.csv")
+rail_workers_data = pd.read_csv("rail_workers_sleep_data.csv")
 
 # Set wide page layout
 st.set_page_config(layout="wide")
