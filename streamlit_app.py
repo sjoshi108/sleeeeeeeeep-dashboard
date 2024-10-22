@@ -57,16 +57,16 @@ st.plotly_chart(fig6, use_container_width=True)
 # Page 4: Work-Related Stress Impact on Sleep
 st.header("Page 4: Work-Related Stress Impact on Sleep")
 
-# Graph 7: Job Security vs Sleep Quality (Sleep Duration used as sleep proxy)
-fig7 = px.scatter(rail_workers_data, x="Job_Security", y="Sleep_Duration", trendline="ols", title="Job Security vs Sleep Duration")
+# Graph 7: Job Security vs Sleep Loss (Corrected to Sleep_loss for rail workers data)
+fig7 = px.scatter(rail_workers_data, x="Job_Security", y="Sleep_loss", trendline="ols", title="Job Security vs Sleep Loss")
 st.plotly_chart(fig7, use_container_width=True)
 
-# Graph 8: Work Surges vs Sleep Quality (Sleep Duration used as sleep proxy)
-fig8 = px.scatter(rail_workers_data, x="Surges_in_work", y="Sleep_Duration", trendline="ols", title="Work Surges vs Sleep Duration")
+# Graph 8: Work Surges vs Sleep Loss (Corrected to Sleep_loss for rail workers data)
+fig8 = px.scatter(rail_workers_data, x="Surges_in_work", y="Sleep_loss", trendline="ols", title="Work Surges vs Sleep Loss")
 st.plotly_chart(fig8, use_container_width=True)
 
-# Graph 9: Life Events vs Sleep Quality (Sleep Duration used as sleep proxy)
-fig9 = px.scatter(rail_workers_data, x="Total_life_events", y="Sleep_Duration", trendline="ols", title="Life Events vs Sleep Duration")
+# Graph 9: Life Events vs Sleep Loss (Corrected to Sleep_loss for rail workers data)
+fig9 = px.scatter(rail_workers_data, x="Total_life_events", y="Sleep_loss", trendline="ols", title="Life Events vs Sleep Loss")
 st.plotly_chart(fig9, use_container_width=True)
 
 # Page 5: Conclusion
