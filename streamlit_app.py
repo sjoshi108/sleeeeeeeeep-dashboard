@@ -76,13 +76,142 @@ elif page == "Work-Related Stress & Sleep":
 
     # Graph 7: Job Security vs Sleep Loss - Scatter plot
     with col1:
-        fig7 = px.scatter(rail_workers_data, x="Job_Security", y="Sleep_loss", trendline="ols", title="Job Security vs Sleep Loss", color_discrete_sequence=["#FF4500"])
-        st.plotly_chart(fig7, use_container_width=True)
+        
+        import plotly.express as px
+        import plotly.graph_objects as go
+        
+        # Load your newly uploaded rail workers dataset
+        df_railworkers_clean = pd.read_csv("df_railworkers_clean(1).csv")
+        
+        # Dictionary for more descriptive labels
+        variable_labels = {
+            'Job_pressure': 'Job Pressure',
+            'Emergencies': 'Emergencies',
+            'Lack_of_control': 'Lack of Control',
+            'Mgmt_policies': 'Management Policies',
+            'Surges_in_work': 'Work Surges',
+            'Communication': 'Communication',
+            'Inadeq_Staff': 'Inadequate Staffing',
+            'Resp_for_others_safety': 'Responsibility for Others\' Safety',
+            'BreakTime': 'Break Time',
+            'TimeOff': 'Time Off',
+            'Sleep_loss': 'Sleep Loss'
+        }
+        
+        # Correlation Analysis Function
+        def perform_correlation_analysis(df, stress_columns):
+            # Ensure all columns in the list exist in the DataFrame before performing correlation
+            missing_columns = [col for col in stress_columns + ['Sleep_loss'] if col not in df.columns]
+            if missing_columns:
+                raise KeyError(f"The following columns are missing from the DataFrame: {missing_columns}")
+        
+            correlation_matrix = df[stress_columns + ['Sleep_loss']].corr()
+            return correlation_matrix['Sleep_loss'].sort_values(ascending=False)
+        
+        # Full list of stress-related columns
+        stress_columns = [
+            'Job_pressure', 'Emergencies', 'Lack_of_control', 'Mgmt_policies',
+            'Surges_in_work', 'Communication', 'Inadeq_Staff', 'Resp_for_others_safety',
+            'BreakTime', 'TimeOff'
+        ]
+        
+        # Run the correlation analysis
+        try:
+            sleep_loss_corr = perform_correlation_analysis(df_railworkers_clean, stress_columns)
+            
+            # Rename the index in the Series and convert it to a DataFrame with 'Sleep Loss' as the column name
+            sleep_loss_corr_renamed = sleep_loss_corr.rename(index=variable_labels).to_frame()
+            sleep_loss_corr_renamed.columns = ['Sleep Loss']
+            
+            
+        
+            # Plot the heatmap using Plotly
+            st.subheader("Heatmap of Correlation with Sleep Loss")
+            fig = go.Figure(data=go.Heatmap(
+                z=sleep_loss_corr_renamed['Sleep Loss'].values.reshape(1, -1),  # reshape for heatmap
+                x=sleep_loss_corr_renamed.index,
+                y=['Sleep Loss'],
+                colorscale='Viridis',
+                showscale=True,
+                zmin=-1,  # correlation ranges from -1 to 1
+                zmax=1
+            ))
+        
+            fig.update_layout(
+                title="Correlation of Stress Factors with Sleep Loss",
+                xaxis_title="Stress Factors",
+                yaxis_title="",
+                height=400
+            )
+        
+            # Show the heatmap in Streamlit
+            st.plotly_chart(fig)
+        
+        except KeyError as e:
+            st.error(f"Error: {e}")
+
+
+
+
+        
     
     # Graph 8: Work Surges vs Sleep Loss - Heatmap for correlation visualization
     with col2:
-        fig8 = px.density_heatmap(rail_workers_data, x="Surges_in_work", y="Sleep_loss", title="Work Surges vs Sleep Loss", color_continuous_scale="Viridis")
-        st.plotly_chart(fig8, use_container_width=True)
+        from sklearn.linear_model import LinearRegression
+        from sklearn.model_selection import train_test_split
+        
+        # Load the rail workers dataset
+        
+        
+        # Define the stress-related columns and the target variable (Sleep_loss)
+        stress_columns = [
+            'Job_pressure', 'Emergencies', 'Lack_of_control', 'Mgmt_policies',
+            'Surges_in_work', 'Communication', 'Inadeq_Staff', 'Resp_for_others_safety',
+            'BreakTime', 'TimeOff'
+        ]
+        target_column = 'Sleep_loss'
+        
+        # Split the data into features (X) and target (y)
+        X = df_railworkers_clean[stress_columns]
+        y = df_railworkers_clean[target_column]
+        
+        # Train-test split for model training
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        # Train a linear regression model
+        model = LinearRegression()
+        model.fit(X_train, y_train)
+        
+        # Dictionary for more descriptive labels
+        variable_labels = {
+            'Job_pressure': 'Job Pressure',
+            'Emergencies': 'Emergencies',
+            'Lack_of_control': 'Lack of Control',
+            'Mgmt_policies': 'Management Policies',
+            'Surges_in_work': 'Work Surges',
+            'Communication': 'Communication',
+            'Inadeq_Staff': 'Inadequate Staffing',
+            'Resp_for_others_safety': 'Responsibility for Others\' Safety',
+            'BreakTime': 'Break Time',
+            'TimeOff': 'Time Off'
+        }
+        
+        # Display significant coefficients with readable labels
+        significant_coeffs = pd.DataFrame({
+            'Variable': stress_columns,
+            'Coefficient': model.coef_
+        }).sort_values(by='Coefficient', ascending=False)
+        
+        # Map the variables to more descriptive labels
+        significant_coeffs['Variable'] = significant_coeffs['Variable'].map(variable_labels)
+        
+        # Plot the bar chart with the updated labels
+        fig = px.bar(significant_coeffs.head(5), x='Coefficient', y='Variable', orientation='h', 
+                     title='Top 5 Predictors of Sleep Loss')
+        
+        # Show the updated plot in Streamlit
+        st.plotly_chart(fig)
+
     
     # Graph 9: Life Events vs Sleep Loss - Scatter plot
     with col3:
@@ -94,137 +223,12 @@ elif page == "Work-Related Stress & Sleep":
 
         
 
-    import plotly.express as px
-    import plotly.graph_objects as go
-    
-    # Load your newly uploaded rail workers dataset
-    df_railworkers_clean = pd.read_csv("df_railworkers_clean(1).csv")
-    
-    # Dictionary for more descriptive labels
-    variable_labels = {
-        'Job_pressure': 'Job Pressure',
-        'Emergencies': 'Emergencies',
-        'Lack_of_control': 'Lack of Control',
-        'Mgmt_policies': 'Management Policies',
-        'Surges_in_work': 'Work Surges',
-        'Communication': 'Communication',
-        'Inadeq_Staff': 'Inadequate Staffing',
-        'Resp_for_others_safety': 'Responsibility for Others\' Safety',
-        'BreakTime': 'Break Time',
-        'TimeOff': 'Time Off',
-        'Sleep_loss': 'Sleep Loss'
-    }
-    
-    # Correlation Analysis Function
-    def perform_correlation_analysis(df, stress_columns):
-        # Ensure all columns in the list exist in the DataFrame before performing correlation
-        missing_columns = [col for col in stress_columns + ['Sleep_loss'] if col not in df.columns]
-        if missing_columns:
-            raise KeyError(f"The following columns are missing from the DataFrame: {missing_columns}")
-    
-        correlation_matrix = df[stress_columns + ['Sleep_loss']].corr()
-        return correlation_matrix['Sleep_loss'].sort_values(ascending=False)
-    
-    # Full list of stress-related columns
-    stress_columns = [
-        'Job_pressure', 'Emergencies', 'Lack_of_control', 'Mgmt_policies',
-        'Surges_in_work', 'Communication', 'Inadeq_Staff', 'Resp_for_others_safety',
-        'BreakTime', 'TimeOff'
-    ]
-    
-    # Run the correlation analysis
-    try:
-        sleep_loss_corr = perform_correlation_analysis(df_railworkers_clean, stress_columns)
-        
-        # Rename the index in the Series and convert it to a DataFrame with 'Sleep Loss' as the column name
-        sleep_loss_corr_renamed = sleep_loss_corr.rename(index=variable_labels).to_frame()
-        sleep_loss_corr_renamed.columns = ['Sleep Loss']
-        
-        
-    
-        # Plot the heatmap using Plotly
-        st.subheader("Heatmap of Correlation with Sleep Loss")
-        fig = go.Figure(data=go.Heatmap(
-            z=sleep_loss_corr_renamed['Sleep Loss'].values.reshape(1, -1),  # reshape for heatmap
-            x=sleep_loss_corr_renamed.index,
-            y=['Sleep Loss'],
-            colorscale='Viridis',
-            showscale=True,
-            zmin=-1,  # correlation ranges from -1 to 1
-            zmax=1
-        ))
-    
-        fig.update_layout(
-            title="Correlation of Stress Factors with Sleep Loss",
-            xaxis_title="Stress Factors",
-            yaxis_title="",
-            height=400
-        )
-    
-        # Show the heatmap in Streamlit
-        st.plotly_chart(fig)
-    
-    except KeyError as e:
-        st.error(f"Error: {e}")
 
 
 
 
 
-    from sklearn.linear_model import LinearRegression
-    from sklearn.model_selection import train_test_split
-    
-    # Load the rail workers dataset
-    
-    
-    # Define the stress-related columns and the target variable (Sleep_loss)
-    stress_columns = [
-        'Job_pressure', 'Emergencies', 'Lack_of_control', 'Mgmt_policies',
-        'Surges_in_work', 'Communication', 'Inadeq_Staff', 'Resp_for_others_safety',
-        'BreakTime', 'TimeOff'
-    ]
-    target_column = 'Sleep_loss'
-    
-    # Split the data into features (X) and target (y)
-    X = df_railworkers_clean[stress_columns]
-    y = df_railworkers_clean[target_column]
-    
-    # Train-test split for model training
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-    # Train a linear regression model
-    model = LinearRegression()
-    model.fit(X_train, y_train)
-    
-    # Dictionary for more descriptive labels
-    variable_labels = {
-        'Job_pressure': 'Job Pressure',
-        'Emergencies': 'Emergencies',
-        'Lack_of_control': 'Lack of Control',
-        'Mgmt_policies': 'Management Policies',
-        'Surges_in_work': 'Work Surges',
-        'Communication': 'Communication',
-        'Inadeq_Staff': 'Inadequate Staffing',
-        'Resp_for_others_safety': 'Responsibility for Others\' Safety',
-        'BreakTime': 'Break Time',
-        'TimeOff': 'Time Off'
-    }
-    
-    # Display significant coefficients with readable labels
-    significant_coeffs = pd.DataFrame({
-        'Variable': stress_columns,
-        'Coefficient': model.coef_
-    }).sort_values(by='Coefficient', ascending=False)
-    
-    # Map the variables to more descriptive labels
-    significant_coeffs['Variable'] = significant_coeffs['Variable'].map(variable_labels)
-    
-    # Plot the bar chart with the updated labels
-    fig = px.bar(significant_coeffs.head(5), x='Coefficient', y='Variable', orientation='h', 
-                 title='Top 5 Predictors of Sleep Loss')
-    
-    # Show the updated plot in Streamlit
-    st.plotly_chart(fig)
+
 
     
     
