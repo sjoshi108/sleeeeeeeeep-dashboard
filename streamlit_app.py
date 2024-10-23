@@ -8,6 +8,8 @@ sleep_data = pd.read_csv("sleep_data_final.csv")
 health_and_lifestyle_data = pd.read_csv("Sleep_health_and_lifestyle_dataset.csv")
 rail_workers_data = pd.read_csv("rail_workers_sleep_data.csv")
 
+vibrant_colors = px.colors.qualitative.Bold
+
 # Set wide page layout
 st.set_page_config(layout="wide")
 
@@ -239,7 +241,8 @@ elif page == "Lifestyle Factors & Stress":
                          hover_name="Gender",  # Correct column for gender
                          title="Sleep Duration vs Daily Steps with Stress Level",
                          labels={"Sleep_Duration": "Sleep Duration (hours)", "Daily_Steps": "Daily Steps"},
-                         size_max=20)  # Adjust max size of bubbles
+                         size_max=20,
+                         color_discrete_sequence=vibrant_colors)  # Adjust max size of bubbles
         
         # Display the bubble chart in Streamlit
         st.plotly_chart(fig6)
