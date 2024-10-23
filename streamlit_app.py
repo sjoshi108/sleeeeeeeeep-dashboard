@@ -13,7 +13,7 @@ st.set_page_config(layout="wide")
 
 # Sidebar navigation
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Introduction", "Consumption Habits & Sleep Efficiency", "Lifestyle Factors & Stress", "Work-Related Stress & Sleep", "Conclusion"])
+page = st.sidebar.radio("Go to", ["Introduction", "Consumption Habits & Sleep Efficiency", "Lifestyle Factors & Stress", "Lifestyle Factors & Stress 2", "Work-Related Stress & Sleep", "Conclusion"])
 
 # Page 1: Introduction
 if page == "Introduction":
