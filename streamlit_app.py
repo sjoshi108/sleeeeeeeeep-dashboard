@@ -500,12 +500,12 @@ elif page == "Work-Related Stress & Sleep":
 # Page 5: Conclusion
 elif page == "Conclusion":
     st.header("Page 5: Conclusion")
-    col1, col2, col3 = st.columns(3)
+    
 
     st.write("""
     Through this analysis, we have uncovered key insights about the various factors influencing sleep quality:
     """)
-    
+    col1, col2, col3 = st.columns(3)
     with col1:
         st.write("""
         1. **Consumption habits** like caffeine and alcohol consumption have a notable impact on sleep efficiency, with alcohol showing a stronger negative correlation.
