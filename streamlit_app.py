@@ -326,7 +326,7 @@ elif page == "Lifestyle and Wellbeing Analysis":
         st.pyplot(fig)
 
     with col3:
-
+        st.subheader(".")
 
 
 
