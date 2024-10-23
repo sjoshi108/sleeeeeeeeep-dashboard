@@ -6,3 +6,4 @@ plotly.express
 ipywidgets
 seaborn
 scikit-learn
+ipython
