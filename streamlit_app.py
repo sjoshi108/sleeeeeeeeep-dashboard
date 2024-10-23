@@ -33,26 +33,7 @@ elif page == "Consumption Habits & Sleep Efficiency":
     st.header("Page 2: The Impact of Consumption Habits on Sleep Efficiency")
     col1, col2, col3 = st.columns(3)
 
-            # Average values (replace with actual data if needed)
-        average_caffeine = 22.345133  # Average caffeine consumption in mg
-        average_alcohol = 1.201327     # Average alcohol consumption in ounces
-        
-        # Title of the scorecard
-        st.header("Average Consumption Metrics")
-        
-        # Displaying average caffeine consumption
-        st.metric(label="Average Caffeine Consumption", value=f"{average_caffeine:.2f} mg")
-        
-        # Displaying average alcohol consumption
-        st.metric(label="Average Alcohol Consumption", value=f"{average_alcohol:.2f} oz")
-        
-        # Key explaining the conversions
-        st.subheader("Key:")
-        st.write("1 oz of alcohol is approximately equal to 30 milliliters.")
-        st.write("5 grams of caffeine is approximately equal to 30 mg of caffeine.")
-        
-        # Additional note
-        st.subheader("Note: These values represent the average consumption levels in the dataset.")
+
     
     # Graph 1: Caffeine vs Sleep Efficiency - Scatter plot with distinct color
     with col1:
