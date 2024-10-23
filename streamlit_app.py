@@ -247,6 +247,29 @@ elif page == "Lifestyle Factors & Stress":
         # Display the bubble chart in Streamlit
         st.plotly_chart(fig6)
 
+    col1, col2, col3 = st.columns(3)
+    st.subheader("Key Insights")
+    with col1:
+        st.markdown("""
+        - **Key Insights for Lifestyle and Wellbeing Analysis**:
+          - Differences in sleep patterns and stress levels across different groups.
+        - **Gender Differences in Sleep**:
+          - Highlighting variations in sleep habits and stress responses based on gender.
+        """)
+    with col2:
+        st.markdown("""
+        - **Sleep Categorization**:
+          - **Short Sleepers**: Less than 6 hours of sleep.
+          - **Adequate Sleepers**: 6 to 8 hours of sleep.
+          - **Long Sleepers**: More than 8 hours of sleep.
+        """)
+    with col3:
+        st.markdown("""
+        - **High Stress and Sleep Disruptions**:
+          - High stress leads to sleep disruptions or insufficient sleep.
+        - **High Stress and Sleep Quality**:
+          - Increased stress correlates with shorter sleep and poorer sleep quality.
+        """)
 
 
 
