@@ -230,7 +230,7 @@ elif page == "Lifestyle Factors & Stress":
     # Graph 6: Sleep Quality by Occupation - Bar chart
     with col3:
 
-        fig6 = px.scatter(df, 
+        fig6 = px.scatter(health_and_lifestyle_data, 
                  x="SLEEP_HOURS", 
                  y="DAILY_STEPS", 
                  size="DAILY_STRESS", 
