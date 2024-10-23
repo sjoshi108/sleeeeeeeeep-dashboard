@@ -169,7 +169,7 @@ elif page == "Consumption Habits & Sleep Efficiency":
         filtered_df["Age_Group"] = pd.cut(filtered_df["Age"], bins=[0, 19, 29, 39, 49, 59, 69], labels=["Teenagers", "20s", "30s", "40s", "50s", "60s"])
     
     heatmap_data = filtered_df.pivot_table(
-        values='Sleep_efficiency', index='Age_Group', columns='Gender', aggfunc='mean'
+        values='Sleep_efficiency_hours', index='Age_Group', columns='Gender', aggfunc='mean'
     )
     
     # Plot heatmap with seaborn
