@@ -17,12 +17,13 @@ page = st.sidebar.radio("Go to", ["Introduction", "Consumption Habits & Sleep Ef
 
 # Page 1: Introduction
 if page == "Introduction":
-    st.title("Sleep, Lifestyle, and Job Factors: A Data Analysis Journey")
+    
 
     col1, col2, col3 = st.columns([1, 1, 1])
 
     # Fill the first two columns with the text
     with col1:
+        st.title("Sleep, Lifestyle, and Job Factors: A Data Analysis Journey")
         st.write("""
         ### Introduction: The Modern Sleep Problem
         
