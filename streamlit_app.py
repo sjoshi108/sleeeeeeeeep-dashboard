@@ -24,19 +24,22 @@ if page == "Introduction":
     # Fill the first two columns with the text
     with col1:
         st.write("""
-        ### Introduction: 
+        ### Introduction: The Modern Sleep Problem
         
         Sleep quality is declining globally, influenced by numerous factors including lifestyle choices, consumption habits, and job-related stress.
         In this analysis, we explore how caffeine and alcohol consumption, stress, physical activity, and job-related stress impact sleep efficiency, 
         stress levels, and overall well-being. We are utilizing three datasets:
+
+        - **General Sleep Data**: Provides individual sleep behaviors (e.g., caffeine, alcohol consumption, and sleep efficiency).
+        - **Health and Lifestyle Data**: Examines how lifestyle attributes such as physical activity and stress affect sleep.
+        - **Rail Workers' Sleep Data**: Focuses on job-related stress and its impact on rail workers' sleep quality.
+        
         """)
     
     with col2:
         st.write("""
-        ### The Modern Sleep Problem
-        - **General Sleep Data**: Provides individual sleep behaviors (e.g., caffeine, alcohol consumption, and sleep efficiency).
-        - **Health and Lifestyle Data**: Examines how lifestyle attributes such as physical activity and stress affect sleep.
-        - **Rail Workers' Sleep Data**: Focuses on job-related stress and its impact on rail workers' sleep quality.
+        ### 
+        
         """)
     
     # Leave the third column empty
