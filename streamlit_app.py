@@ -325,7 +325,7 @@ elif page == "Lifestyle and Wellbeing Analysis":
         ax.set_ylabel('Daily Stress', fontsize=12)
         st.pyplot(fig)
 
-    with col2:
+    with col3:
 
 
 
