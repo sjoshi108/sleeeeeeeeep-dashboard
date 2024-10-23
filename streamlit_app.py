@@ -13,7 +13,7 @@ st.set_page_config(layout="wide")
 
 # Sidebar navigation
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Introduction", "Consumption Habits & Sleep Efficiency", "Lifestyle Factors & Stress", "Lifestyle Factors & Stress 2", "Work-Related Stress & Sleep", "Conclusion"])
+page = st.sidebar.radio("Go to", ["Introduction", "Consumption Habits & Sleep Efficiency", "Lifestyle Factors & Stress", "Lifestyle and Wellbeing Analysis", "Work-Related Stress & Sleep", "Conclusion"])
 
 # Page 1: Introduction
 if page == "Introduction":
@@ -239,8 +239,8 @@ elif page == "Lifestyle Factors & Stress":
 
 
 
-elif page == "Lifestyle Factors & Stress 2":
-    st.header("Page 3.5: Lifestyle Factors and Stress")
+elif page == "Lifestyle and Wellbeing Analysis":
+    st.header("Lifestyle and Wellbeing Analysis")
     col1, col2, col3 = st.columns(3)
 
 
