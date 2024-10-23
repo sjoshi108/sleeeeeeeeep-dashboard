@@ -19,7 +19,7 @@ page = st.sidebar.radio("Go to", ["Introduction", "Consumption Habits & Sleep Ef
 if page == "Introduction":
     
 
-    col1, col2, col3 = st.columns([1, 1, 1])
+    col1, col2 = st.columns([1, 1])
 
     # Fill the first two columns with the text
     with col1:
@@ -43,10 +43,6 @@ if page == "Introduction":
         
         """)
     
-    # Leave the third column empty
-    with col3:
-        st.write("")
-
 
     
 
