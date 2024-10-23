@@ -161,7 +161,7 @@ elif page == "Work-Related Stress & Sleep":
                 y=['Sleep Loss'],
                 colorscale='Viridis',
                 showscale=True,
-                zmin=-1,  # correlation ranges from -1 to 1
+                zmin=0.2,  # correlation ranges from -1 to 1
                 zmax=1
             ))
         
