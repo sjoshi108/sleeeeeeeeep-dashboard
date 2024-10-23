@@ -229,8 +229,6 @@ elif page == "Lifestyle Factors & Stress":
     
     # Graph 6: Sleep Quality by Occupation - Bar chart
     with col3:
-        # Create a bubble chart using Plotly
-        st.header("Bubble Chart: Sleep Duration vs Daily Steps with Stress Level")
         
         # Use the correct columns from your dataset for the bubble chart
         fig6 = px.scatter(health_and_lifestyle_data, 
@@ -241,7 +239,7 @@ elif page == "Lifestyle Factors & Stress":
                          hover_name="Gender",  # Correct column for gender
                          title="Sleep Duration vs Daily Steps with Stress Level",
                          labels={"Sleep_Duration": "Sleep Duration (hours)", "Daily_Steps": "Daily Steps"},
-                         size_max=60)  # Adjust max size of bubbles
+                         size_max=20)  # Adjust max size of bubbles
         
         # Display the bubble chart in Streamlit
         st.plotly_chart(fig6)
