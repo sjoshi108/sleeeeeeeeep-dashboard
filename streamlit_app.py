@@ -38,10 +38,14 @@ if page == "Introduction":
         """)
     
     with col2:
-        st.write("""
-        ### 
         
-        """)
+        import streamlit as st
+
+        # Display an image in your Streamlit app
+        st.image("images/cont_p1.png", caption="sleeeeeeeeep", use_column_width=True)
+
+        
+        
     
 
     
