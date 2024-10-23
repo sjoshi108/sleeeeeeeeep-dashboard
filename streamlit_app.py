@@ -500,14 +500,26 @@ elif page == "Work-Related Stress & Sleep":
 # Page 5: Conclusion
 elif page == "Conclusion":
     st.header("Page 5: Conclusion")
+    col1, col2, col3 = st.columns(3)
+
     st.write("""
     Through this analysis, we have uncovered key insights about the various factors influencing sleep quality:
-    1. **Consumption habits** like caffeine and alcohol consumption have a notable impact on sleep efficiency, with alcohol showing a stronger negative correlation.
-    2. **Stress levels** and **physical activity** play a significant role in sleep quality, with higher physical activity linked to better sleep outcomes.
-    3. In the case of **rail workers**, job insecurity and work surges directly contribute to reduced sleep quality, highlighting the importance of addressing job-related stress.
-    By addressing these factors, individuals and organizations can take steps toward improving sleep health and overall well-being.
     """)
-
+    
+    with col1:
+        st.write("""
+        Through this analysis, we have uncovered key insights about the various factors influencing sleep quality:
+        1. **Consumption habits** like caffeine and alcohol consumption have a notable impact on sleep efficiency, with alcohol showing a stronger negative correlation.
+        """)
+    with col2:
+        st.write("""
+        2. **Stress levels** and **physical activity** play a significant role in sleep quality, with higher physical activity linked to better sleep outcomes.
+        """)
+    with col3:
+        st.write("""
+        3. In the case of **rail workers**, job insecurity and work surges directly contribute to reduced sleep quality, highlighting the importance of addressing job-related stress.
+        By addressing these factors, individuals and organizations can take steps toward improving sleep health and overall well-being.
+        """)
 
 
 
