@@ -241,7 +241,7 @@ elif page == "Lifestyle Factors & Stress":
 
 elif page == "Lifestyle and Wellbeing Analysis":
     st.header("Lifestyle and Wellbeing Analysis")
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
 
@@ -325,7 +325,7 @@ elif page == "Lifestyle and Wellbeing Analysis":
         ax.set_ylabel('Daily Stress', fontsize=12)
         st.pyplot(fig)
 
-
+    with col2:
 
 
 
