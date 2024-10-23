@@ -49,6 +49,161 @@ elif page == "Consumption Habits & Sleep Efficiency":
         fig3 = px.histogram(sleep_data, x="Sleep_efficiency", color="Gender", title="Sleep Efficiency Distribution by Gender", color_discrete_sequence=["#FF1493", "#1E90FF"])
         st.plotly_chart(fig3, use_container_width=True)
 
+
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    import ipywidgets as widgets
+    from IPython.display import display
+    import plotly.io as pio
+    
+    # Load the CSV file you uploaded
+    df = pd.read_csv("sleep_data_final.csv")  # Adjust the path if needed
+    
+    # Dropdown for Age Group
+    age_options = ["All", "Teenagers", "20s", "30s", "40s", "50s", "60s"]
+    age_dropdown = widgets.Dropdown(
+        options=age_options, description='Age Group:', value='All'
+    )
+    
+    # Dropdown for Gender
+    gender_options = ["All", "Male", "Female", "Other"]
+    gender_dropdown = widgets.Dropdown(
+        options=gender_options, description='Gender:', value='All'
+    )
+    
+    # Slider for Alcohol Consumption
+    alcohol_slider = widgets.IntRangeSlider(
+        value=[0, 5], min=0, max=int(df['Alcohol_consumption'].max()), step=1,
+        description='Alcohol Consumption:', continuous_update=False
+    )
+    
+    # Slider for Caffeine Consumption
+    caffeine_slider = widgets.IntRangeSlider(
+        value=[0, 200], min=0, max=int(df['Caffeine_consumption'].max()), step=1,
+        description='Caffeine Consumption:', continuous_update=False
+    )
+    
+    # Display the filters
+    display(age_dropdown, gender_dropdown, alcohol_slider, caffeine_slider)
+    
+    # Define age ranges for filtering
+    age_ranges = {
+        "Teenagers": (9, 19),
+        "20s": (20, 29),
+        "30s": (30, 39),
+        "40s": (40, 49),
+        "50s": (50, 59),
+        "60s": (60, 69)
+    }
+    
+    # Function to update metrics based on filters
+    def update_metrics(age_group, gender, alcohol_range, caffeine_range):
+        filtered_df = df.copy()
+    
+        # Filter by age group
+        if age_group != "All":
+            age_min, age_max = age_ranges[age_group]
+            filtered_df = filtered_df[(filtered_df["Age"] >= age_min) & (filtered_df["Age"] <= age_max)]
+    
+        # Filter by gender
+        if gender != "All":
+            filtered_df = filtered_df[filtered_df["Gender"] == gender]
+    
+        # Filter by alcohol consumption
+        filtered_df = filtered_df[
+            (filtered_df["Alcohol_consumption"] >= alcohol_range[0]) &
+            (filtered_df["Alcohol_consumption"] <= alcohol_range[1])
+        ]
+    
+        # Filter by caffeine consumption
+        filtered_df = filtered_df[
+            (filtered_df["Caffeine_consumption"] >= caffeine_range[0]) &
+            (filtered_df["Caffeine_consumption"] <= caffeine_range[1])
+        ]
+    
+        print(f"Filtered Data: {len(filtered_df)} Participants")
+        display(filtered_df)
+    
+        # Bar Plot: Sleep Duration by Alcohol and Caffeine Levels
+        fig_sleep_duration = px.bar(
+            filtered_df, x="Alcohol_consumption", y="Sleep_Duration", color="Caffeine_consumption",
+            title="Sleep Duration by Alcohol & Caffeine Levels"
+        )
+        fig_sleep_duration.show()
+    
+        # Line Chart: Sleep Proportions (REM, Deep, Light) by Alcohol & Caffeine Intake
+        fig_sleep_proportions = go.Figure()
+    
+        fig_sleep_proportions.add_trace(go.Scatter(
+        x=filtered_df['Alcohol_consumption'], y=filtered_df['Rem_Sleep_Duration'],
+        mode='lines+markers', name='REM Sleep Duration'
+        ))
+    
+        fig_sleep_proportions.add_trace(go.Scatter(
+        x=filtered_df['Alcohol_consumption'], y=filtered_df['Deep_Sleep_Duration'],
+        mode='lines+markers', name='Deep Sleep Duration'
+        ))
+    
+        fig_sleep_proportions.add_trace(go.Scatter(
+        x=filtered_df['Alcohol_consumption'], y=filtered_df['Light_Sleep_Duration'],
+        mode='lines+markers', name='Light Sleep Duration'
+        ))
+    
+        fig_sleep_proportions.update_layout(
+        title="REM, Deep, Light Sleep Durations by Alcohol Intake",
+        xaxis_title="Alcohol Consumption",
+        yaxis_title="Sleep Duration (hours)"
+        )
+    
+        fig_sleep_proportions.show()
+    
+        # Heatmap: Combined Effects of Age Group & Gender on Sleep Efficiency
+        if "Age_Group" not in filtered_df.columns:
+            filtered_df["Age_Group"] = pd.cut(filtered_df["Age"], bins=[0, 19, 29, 39, 49, 59, 69], labels=["Teenagers", "20s", "30s", "40s", "50s", "60s"])
+    
+        heatmap_data = filtered_df.pivot_table(
+            values='Sleep_efficiency', index='Age_Group', columns='Gender', aggfunc='mean'
+        )
+    
+        plt.figure(figsize=(10, 6))
+        sns.heatmap(heatmap_data, annot=True, cmap="YlGnBu", cbar=True)
+        plt.title('Sleep Efficiency by Age Group and Gender')
+        plt.show()
+    
+    # Manually trigger update when filters are changed
+    def on_filter_change(change):
+        update_metrics(
+            age_dropdown.value,
+            gender_dropdown.value,
+            alcohol_slider.value,
+            caffeine_slider.value
+        )
+    
+    # Add observers to trigger the update when any filter changes
+    age_dropdown.observe(on_filter_change, names='value')
+    gender_dropdown.observe(on_filter_change, names='value')
+    alcohol_slider.observe(on_filter_change, names='value')
+    caffeine_slider.observe(on_filter_change, names='value')
+    
+    # To ensure proper rendering of graphs in Colab or Jupyter Notebooks
+    pio.renderers.default = "colab"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Page 3: Lifestyle Factors & Stress
 elif page == "Lifestyle Factors & Stress":
     st.header("Page 3: Lifestyle Factors and Stress")
