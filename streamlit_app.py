@@ -241,89 +241,89 @@ elif page == "Lifestyle Factors & Stress":
 
 elif page == "Lifestyle and Wellbeing Analysis":
     st.header("Lifestyle and Wellbeing Analysis")
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        import pandas as pd
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+        import streamlit as st
+        
+        # Load the CSV file (adjust the path as necessary)
+        df = pd.read_csv("lifestylewellbeingdata.csv")
+        
+        # Filter out invalid DAILY_STRESS values and convert to integer
+        df_clean = df[df["DAILY_STRESS"] != '36526']
+        df_clean["DAILY_STRESS"] = df_clean["DAILY_STRESS"].astype(int)
+        
+        # Converting 'Timestamp' column to datetime format and extracting Date
+        df_clean['Date'] = df['Timestamp'].str.split(' ').str[0]
+        df_clean = df_clean.drop_duplicates()
+        
+        # Moving 'Date' to the first column
+        first_column = df_clean.pop('Date')
+        df_clean.insert(0, 'Date', first_column)
+        
+        # Correlation Analysis
+        lifestyle_columns = ['SLEEP_HOURS', 'DAILY_STRESS', 'DAILY_STEPS', 'WORK_LIFE_BALANCE_SCORE', 'TIME_FOR_PASSION']
+        correlation_matrix = df_clean[lifestyle_columns].corr()
+        
+        
+        # Display the correlation matrix
+        st.subheader("Correlation Matrix")
+        st.write("Correlation between Sleep Hours and Lifestyle Variables:")
+        st.dataframe(correlation_matrix)
+        
+        # Plotting the Distribution of Sleep Categories
+        def categorize_sleep(hours):
+            if hours < 6:
+                return 'Short Sleep'
+            elif 6 <= hours <= 8:
+                return 'Optimal Sleep'
+            else:
+                return 'Long Sleep'
+        
+        df_clean['SLEEP_CATEGORY'] = df_clean['SLEEP_HOURS'].apply(categorize_sleep)
+        
+        st.subheader("Distribution of Sleep Categories")
+        fig, ax = plt.subplots()
+        sns.countplot(x='SLEEP_CATEGORY', data=df_clean, palette='Set3', ax=ax)
+        ax.set_title("Distribution of Sleep Categories", fontsize=16)
+        ax.set_xlabel("Sleep Category", fontsize=12)
+        ax.set_ylabel("Count", fontsize=12)
+        st.pyplot(fig)
+        
+        # Average Sleep Hours by Age and Gender
+        st.subheader("Average Sleep Hours by Age and Gender")
+        avg_sleep_by_age_gender = df_clean.groupby(['AGE', 'GENDER'])['SLEEP_HOURS'].mean().unstack()
+        fig, ax = plt.subplots(figsize=(10, 6))
+        avg_sleep_by_age_gender.plot(kind='bar', ax=ax)
+        ax.set_title('Average Sleep Hours by Age and Gender', fontsize=14)
+        ax.set_ylabel('Average Sleep Hours')
+        ax.set_xlabel('Age Group')
+        plt.xticks(rotation=0)
+        st.pyplot(fig)
 
 
-
-    import pandas as pd
-    import seaborn as sns
-    import matplotlib.pyplot as plt
-    import streamlit as st
-    
-    # Load the CSV file (adjust the path as necessary)
-    df = pd.read_csv("lifestylewellbeingdata.csv")
-    
-    # Filter out invalid DAILY_STRESS values and convert to integer
-    df_clean = df[df["DAILY_STRESS"] != '36526']
-    df_clean["DAILY_STRESS"] = df_clean["DAILY_STRESS"].astype(int)
-    
-    # Converting 'Timestamp' column to datetime format and extracting Date
-    df_clean['Date'] = df['Timestamp'].str.split(' ').str[0]
-    df_clean = df_clean.drop_duplicates()
-    
-    # Moving 'Date' to the first column
-    first_column = df_clean.pop('Date')
-    df_clean.insert(0, 'Date', first_column)
-    
-    # Correlation Analysis
-    lifestyle_columns = ['SLEEP_HOURS', 'DAILY_STRESS', 'DAILY_STEPS', 'WORK_LIFE_BALANCE_SCORE', 'TIME_FOR_PASSION']
-    correlation_matrix = df_clean[lifestyle_columns].corr()
-    
-    # Page 6: Lifestyle and Wellbeing Analysis
-    st.header("Lifestyle and Wellbeing Analysis")
-    
-    # Display the correlation matrix
-    st.subheader("Correlation Matrix")
-    st.write("Correlation between Sleep Hours and Lifestyle Variables:")
-    st.dataframe(correlation_matrix)
-    
-    # Plotting the Distribution of Sleep Categories
-    def categorize_sleep(hours):
-        if hours < 6:
-            return 'Short Sleep'
-        elif 6 <= hours <= 8:
-            return 'Optimal Sleep'
-        else:
-            return 'Long Sleep'
-    
-    df_clean['SLEEP_CATEGORY'] = df_clean['SLEEP_HOURS'].apply(categorize_sleep)
-    
-    st.subheader("Distribution of Sleep Categories")
-    fig, ax = plt.subplots()
-    sns.countplot(x='SLEEP_CATEGORY', data=df_clean, palette='Set3', ax=ax)
-    ax.set_title("Distribution of Sleep Categories", fontsize=16)
-    ax.set_xlabel("Sleep Category", fontsize=12)
-    ax.set_ylabel("Count", fontsize=12)
-    st.pyplot(fig)
-    
-    # Average Sleep Hours by Age and Gender
-    st.subheader("Average Sleep Hours by Age and Gender")
-    avg_sleep_by_age_gender = df_clean.groupby(['AGE', 'GENDER'])['SLEEP_HOURS'].mean().unstack()
-    fig, ax = plt.subplots(figsize=(10, 6))
-    avg_sleep_by_age_gender.plot(kind='bar', ax=ax)
-    ax.set_title('Average Sleep Hours by Age and Gender', fontsize=14)
-    ax.set_ylabel('Average Sleep Hours')
-    ax.set_xlabel('Age Group')
-    plt.xticks(rotation=0)
-    st.pyplot(fig)
-    
-    # Regression Plot: Sleep Hours vs Work-Life Balance Score
-    st.subheader("Sleep Hours vs Work-Life Balance Score")
-    fig, ax = plt.subplots(figsize=(8, 6))
-    sns.regplot(x=df_clean['SLEEP_HOURS'], y=df_clean['WORK_LIFE_BALANCE_SCORE'], scatter_kws={'s':50}, line_kws={'color':'red'}, ax=ax)
-    ax.set_title('Sleep Hours vs Work-Life Balance', fontsize=14)
-    ax.set_xlabel('Sleep Hours', fontsize=12)
-    ax.set_ylabel('Work-Life Balance Score', fontsize=12)
-    st.pyplot(fig)
-    
-    # Regression Plot: Sleep Hours vs Daily Stress
-    st.subheader("Sleep Hours vs Daily Stress")
-    fig, ax = plt.subplots(figsize=(8, 6))
-    sns.regplot(x=df_clean['SLEEP_HOURS'], y=df_clean['DAILY_STRESS'], scatter_kws={'s':50}, line_kws={'color':'blue'}, ax=ax)
-    ax.set_title('Sleep Hours vs Daily Stress', fontsize=14)
-    ax.set_xlabel('Sleep Hours', fontsize=12)
-    ax.set_ylabel('Daily Stress', fontsize=12)
-    st.pyplot(fig)
+    with col2:
+        # Regression Plot: Sleep Hours vs Work-Life Balance Score
+        st.subheader("Sleep Hours vs Work-Life Balance Score")
+        fig, ax = plt.subplots(figsize=(8, 6))
+        sns.regplot(x=df_clean['SLEEP_HOURS'], y=df_clean['WORK_LIFE_BALANCE_SCORE'], scatter_kws={'s':50}, line_kws={'color':'red'}, ax=ax)
+        ax.set_title('Sleep Hours vs Work-Life Balance', fontsize=14)
+        ax.set_xlabel('Sleep Hours', fontsize=12)
+        ax.set_ylabel('Work-Life Balance Score', fontsize=12)
+        st.pyplot(fig)
+        
+        # Regression Plot: Sleep Hours vs Daily Stress
+        st.subheader("Sleep Hours vs Daily Stress")
+        fig, ax = plt.subplots(figsize=(8, 6))
+        sns.regplot(x=df_clean['SLEEP_HOURS'], y=df_clean['DAILY_STRESS'], scatter_kws={'s':50}, line_kws={'color':'blue'}, ax=ax)
+        ax.set_title('Sleep Hours vs Daily Stress', fontsize=14)
+        ax.set_xlabel('Sleep Hours', fontsize=12)
+        ax.set_ylabel('Daily Stress', fontsize=12)
+        st.pyplot(fig)
 
 
 
