@@ -239,9 +239,7 @@ elif page == "Lifestyle Factors & Stress":
                  title="Sleep Hours vs Daily Steps with Stress Level",
                  labels={"SLEEP_HOURS": "Sleep Hours", "DAILY_STEPS": "Daily Steps"},
                  size_max=60)  # Adjust max size of bubbles
-
-# Show the bubble chart in Streamlit
-st.plotly_chart(fig6)
+        st.plotly_chart(fig6)
 
 
 
