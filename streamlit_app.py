@@ -54,6 +54,134 @@ elif page == "Consumption Habits & Sleep Efficiency":
 
 
 
+    import pandas as pd
+    import plotly.express as px
+    import plotly.graph_objects as go
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    import streamlit as st
+    
+    # Load the CSV file you uploaded (adjust the path if necessary)
+    df = pd.read_csv("sleep_data_final.csv")  # Update the path
+    
+    # Define age ranges for filtering
+    age_ranges = {
+        "Teenagers": (9, 19),
+        "20s": (20, 29),
+        "30s": (30, 39),
+        "40s": (40, 49),
+        "50s": (50, 59),
+        "60s": (60, 69)
+    }
+    
+    # Add widgets for filtering the data
+    st.sidebar.title("Filter Data")
+    
+    # Dropdown for Age Group
+    age_group = st.sidebar.selectbox(
+        'Age Group:', options=["All"] + list(age_ranges.keys()), index=0
+    )
+    
+    # Dropdown for Gender
+    gender = st.sidebar.selectbox(
+        'Gender:', options=["All", "Male", "Female", "Other"], index=0
+    )
+    
+    # Slider for Alcohol Consumption
+    alcohol_range = st.sidebar.slider(
+        'Alcohol Consumption:', min_value=0, max_value=int(df['Alcohol_consumption'].max()), value=(0, 5)
+    )
+    
+    # Slider for Caffeine Consumption
+    caffeine_range = st.sidebar.slider(
+        'Caffeine Consumption:', min_value=0, max_value=int(df['Caffeine_consumption'].max()), value=(0, 200)
+    )
+    
+    # Function to filter data based on the selections
+    def filter_data(df, age_group, gender, alcohol_range, caffeine_range):
+        filtered_df = df.copy()
+    
+        # Filter by age group
+        if age_group != "All":
+            age_min, age_max = age_ranges[age_group]
+            filtered_df = filtered_df[(filtered_df["Age"] >= age_min) & (filtered_df["Age"] <= age_max)]
+    
+        # Filter by gender
+        if gender != "All":
+            filtered_df = filtered_df[filtered_df["Gender"] == gender]
+    
+        # Filter by alcohol consumption
+        filtered_df = filtered_df[
+            (filtered_df["Alcohol_consumption"] >= alcohol_range[0]) &
+            (filtered_df["Alcohol_consumption"] <= alcohol_range[1])
+        ]
+    
+        # Filter by caffeine consumption
+        filtered_df = filtered_df[
+            (filtered_df["Caffeine_consumption"] >= caffeine_range[0]) &
+            (filtered_df["Caffeine_consumption"] <= caffeine_range[1])
+        ]
+    
+        return filtered_df
+    
+    # Apply the filters to the dataset
+    filtered_df = filter_data(df, age_group, gender, alcohol_range, caffeine_range)
+    
+    # Display the filtered data summary
+    st.write(f"Filtered Data: {len(filtered_df)} Participants")
+    st.dataframe(filtered_df)
+    
+    # Plot: Sleep Duration by Alcohol and Caffeine Levels (Bar Chart)
+    fig_sleep_duration = px.bar(
+        filtered_df, x="Alcohol_consumption", y="Sleep_Duration", color="Caffeine_consumption",
+        title="Sleep Duration by Alcohol & Caffeine Levels"
+    )
+    st.plotly_chart(fig_sleep_duration)
+    
+    # Line Chart: Sleep Proportions (REM, Deep, Light) by Alcohol & Caffeine Intake
+    fig_sleep_proportions = go.Figure()
+    
+    fig_sleep_proportions.add_trace(go.Scatter(
+        x=filtered_df['Alcohol_consumption'], y=filtered_df['Rem_Sleep_Duration'],
+        mode='lines+markers', name='REM Sleep Duration'
+    ))
+    
+    fig_sleep_proportions.add_trace(go.Scatter(
+        x=filtered_df['Alcohol_consumption'], y=filtered_df['Deep_Sleep_Duration'],
+        mode='lines+markers', name='Deep Sleep Duration'
+    ))
+    
+    fig_sleep_proportions.add_trace(go.Scatter(
+        x=filtered_df['Alcohol_consumption'], y=filtered_df['Light_Sleep_Duration'],
+        mode='lines+markers', name='Light Sleep Duration'
+    ))
+    
+    fig_sleep_proportions.update_layout(
+        title="REM, Deep, Light Sleep Durations by Alcohol Intake",
+        xaxis_title="Alcohol Consumption",
+        yaxis_title="Sleep Duration (hours)"
+    )
+    
+    st.plotly_chart(fig_sleep_proportions)
+    
+    # Heatmap: Combined Effects of Age Group & Gender on Sleep Efficiency
+    if "Age_Group" not in filtered_df.columns:
+        filtered_df["Age_Group"] = pd.cut(filtered_df["Age"], bins=[0, 19, 29, 39, 49, 59, 69], labels=["Teenagers", "20s", "30s", "40s", "50s", "60s"])
+    
+    heatmap_data = filtered_df.pivot_table(
+        values='Sleep_efficiency', index='Age_Group', columns='Gender', aggfunc='mean'
+    )
+    
+    # Plot heatmap with seaborn
+    plt.figure(figsize=(10, 6))
+    sns.heatmap(heatmap_data, annot=True, cmap="YlGnBu", cbar=True)
+    plt.title('Sleep Efficiency by Age Group and Gender')
+    
+    # Show the heatmap using Streamlit
+    st.pyplot(plt)
+    
+
+
 
 
 
