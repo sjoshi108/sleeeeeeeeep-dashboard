@@ -18,6 +18,34 @@ page = st.sidebar.radio("Go to", ["Introduction", "Consumption Habits & Sleep Ef
 # Page 1: Introduction
 if page == "Introduction":
     st.title("Sleep, Lifestyle, and Job Factors: A Data Analysis Journey")
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+
+        # Fill the first two columns with the text
+        with col1:
+            st.write("""
+            ### Introduction: The Modern Sleep Problem
+        
+            Sleep quality is declining globally, influenced by numerous factors including lifestyle choices, consumption habits, and job-related stress.
+            In this analysis, we explore how caffeine and alcohol consumption, stress, physical activity, and job-related stress impact sleep efficiency, 
+            stress levels, and overall well-being. We are utilizing three datasets:
+            """)
+        
+        with col2:
+            st.write("""
+            - **General Sleep Data**: Provides individual sleep behaviors (e.g., caffeine, alcohol consumption, and sleep efficiency).
+            - **Health and Lifestyle Data**: Examines how lifestyle attributes such as physical activity and stress affect sleep.
+            - **Rail Workers' Sleep Data**: Focuses on job-related stress and its impact on rail workers' sleep quality.
+            """)
+        
+        # Leave the third column empty
+        with col3:
+            st.write("")
+
+
+    
+
+    
     st.header("Introduction: The Modern Sleep Problem")
     st.write("""
     Sleep quality is declining globally, influenced by numerous factors including lifestyle choices, consumption habits, and job-related stress.
