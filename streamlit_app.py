@@ -271,9 +271,9 @@ elif page == "Lifestyle and Wellbeing Analysis":
         
         
         # Display the correlation matrix
-        st.subheader("Correlation Matrix")
-        st.write("Correlation between Sleep Hours and Lifestyle Variables:")
-        st.dataframe(correlation_matrix)
+        # st.subheader("Correlation Matrix")
+        # st.write("Correlation between Sleep Hours and Lifestyle Variables:")
+        # st.dataframe(correlation_matrix)
         
         # Plotting the Distribution of Sleep Categories
         def categorize_sleep(hours):
